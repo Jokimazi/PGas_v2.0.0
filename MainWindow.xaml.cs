@@ -39,5 +39,10 @@ namespace PGas_v2._0._0
         {
 
         }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }
