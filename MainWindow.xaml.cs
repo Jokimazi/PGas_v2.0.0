@@ -34,5 +34,10 @@ namespace PGas_v2._0._0
         {
 
         }
+
+        private void PasswordBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }
