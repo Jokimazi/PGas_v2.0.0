@@ -7,9 +7,9 @@
         xmlns:local="clr-namespace:PGas_v2._0._0"
         mc:Ignorable="d"
         Title="MainWindow" Height="537" Width="372" Background="#FF444444">
-    <Grid Cursor="">
-        <ui:TextBlock TextWrapping="Wrap" Text="Passwords" Margin="108,63,0,0" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White"/>
-        <ui:TextBlock TextWrapping="Wrap" Text="Generation and storage" Margin="108,95,0,0" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White"/>
-        <ui:SymbolIcon Margin="10,53,290,394" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <Grid Cursor="" AutomationProperties.Name="login">
+        <ui:PasswordBox TextWrapping="NoWrap" Margin="90,323,90,0" VerticalAlignment="Top" Password="" PlaceholderText="Пароль"/>
+        <ui:PasswordBox TextWrapping="NoWrap" Margin="90,261,90,0" VerticalAlignment="Top" Password="" PlaceholderText="Логин" RevealButtonEnabled="False" />
+        <local:LoginBox TextWrapping="NoWrap" Margin="90,261,90,0" VerticalAlignment="Top" Password="" PlaceholderText="Логин" RevealButtonEnabled="False" />
     </Grid>
 </Window>
