@@ -15,14 +15,22 @@ using System.Windows.Shapes;
 
 namespace PGas_v2._0._0
 {
-    /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left && e.ClickCount == 1)
+                DragMove();
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
 
         private void ToggleSwitch_Checked(object sender, RoutedEventArgs e)
@@ -41,6 +49,11 @@ namespace PGas_v2._0._0
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void Window_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
 
         }

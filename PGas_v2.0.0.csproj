@@ -101,5 +101,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\PGas_new_ai_logo_edited.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="PGas_new_ai_logo_edited.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
