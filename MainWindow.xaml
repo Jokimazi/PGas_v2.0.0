@@ -10,6 +10,7 @@
     <Grid Cursor="">
         <ui:TextBlock TextWrapping="Wrap" Text="Passwords" Margin="108,63,0,0" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White"/>
         <ui:TextBlock TextWrapping="Wrap" Text="Generation and storage" Margin="108,95,0,0" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White"/>
-        <ui:SymbolIcon Margin="10,53,290,394" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <ui:PasswordBox TextWrapping="NoWrap" Margin="96,334,96,0" VerticalAlignment="Top" Password="" PlaceholderText="Пароль" TextChanged="PasswordBox_TextChanged"/>
+        <local:LoginBox TextWrapping="NoWrap" Margin="96,250,96,0" VerticalAlignment="Top" Password="" PlaceholderText="Логин" />
     </Grid>
 </Window>
