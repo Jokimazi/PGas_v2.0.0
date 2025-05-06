@@ -6,7 +6,9 @@
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         xmlns:local="clr-namespace:PGas_v2._0._0"
         mc:Ignorable="d"
-        Title="MainWindow" Height="568" Width="372"
+        Title="Passwords. Generating and storage"
+        Height="568"
+        Width="926"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
         WindowStyle="None"
@@ -16,22 +18,40 @@
     <Border CornerRadius="10" Background="#FF444444">
 
         <Grid>
-            <Border VerticalAlignment="Top" Height="30" Background="#FF444444" MouseDown="TitleBar_MouseDown" CornerRadius="10">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <ui:Button Content="╳" Padding="5" Height="30" Width="30" FontWeight="Bold" Click="CloseButton_Click" CornerRadius="0,10,0,0" Appearance="Transparent" BorderBrush="Transparent"/>
+            <Border 
+                VerticalAlignment="Top" 
+                Height="30" 
+                Background="#FF444444" 
+                MouseDown="TitleBar_MouseDown" 
+                CornerRadius="10">
+                <StackPanel 
+                    Orientation="Horizontal" 
+                    HorizontalAlignment="Right">
+                    
+                    <ui:Button 
+                        Content="―" Padding="5" 
+                        Height="30" Width="30" 
+                        FontWeight="Bold" 
+                        Click="HideButton_Click" 
+                        CornerRadius="0,0,0,0"
+                        Appearance="Transparent" 
+                        BorderBrush="Transparent"/>
+                    
+                    <ui:Button 
+                        Content="╳" 
+                        Padding="5" 
+                        Height="30" 
+                        Width="30" 
+                        FontWeight="Bold" 
+                        Click="CloseButton_Click" 
+                        CornerRadius="0,10,0,0" 
+                        Appearance="Transparent" 
+                        BorderBrush="Transparent"/>
+                    
                 </StackPanel>
             </Border>
-
-            <ui:TextBlock TextWrapping="Wrap" Margin="0,164,0,0" FontSize="24" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Top" TextAlignment="Center">
-                <Run Text="Passwords."/>
-                <LineBreak/>
-                <Run Text="Generation and storage"/>
-            </ui:TextBlock>
-            <ui:PasswordBox TextWrapping="NoWrap" Margin="99,349,93,0" VerticalAlignment="Top" PlaceholderText="Пароль" TextChanged="PasswordBox_TextChanged" Cursor=""/>
-            <ui:TextBox TextWrapping="NoWrap" Margin="99,308,93,0" VerticalAlignment="Top" PlaceholderText="Логин" TextChanged="TextBox_TextChanged"/>
-            <ui:Button Content="Вход" Margin="0,411,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Height="39" Width="92" Foreground="#FFF1F1F1" FontSize="72" />
-            <ui:Image Cursor="" Margin="123,34,123,0" Source="/PGas_new_ai_logo_edited.png" VerticalAlignment="Top" Height="130"/>
-            <ui:TextBlock TextWrapping="Wrap" Text="Аутентификация" Cursor="" Margin="0,253,0,0" FontSize="24" Foreground="#FFF1F1F1" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            
+            
         </Grid>
     </Border>
 </Window>

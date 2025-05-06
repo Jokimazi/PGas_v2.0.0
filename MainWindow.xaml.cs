@@ -10,8 +10,11 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Drawing;
+using System.Runtime.Remoting.Channels;
+using System.Runtime.InteropServices;
+using System.Windows.Interop;
 
 namespace PGas_v2._0._0
 {
@@ -20,6 +23,11 @@ namespace PGas_v2._0._0
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void HideButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
         }
 
         private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e)
@@ -31,31 +39,6 @@ namespace PGas_v2._0._0
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
-        }
-
-        private void ToggleSwitch_Checked(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void PasswordBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void Window_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-
         }
     }
 }

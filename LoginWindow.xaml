@@ -1,0 +1,110 @@
+﻿<Window x:Class="PGas_v2._0._0.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        xmlns:local="clr-namespace:PGas_v2._0._0"
+        mc:Ignorable="d"
+        Title="PGas | Вход"
+        Height="568"
+        Width="372"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent">
+
+    <Border
+        CornerRadius="10"
+        Background="#FF444444">
+        <StackPanel>
+            <Border 
+               Height="30" 
+               Background="#FF444444" 
+               MouseDown="TitleBar_MouseDown" 
+               CornerRadius="10">
+                <StackPanel 
+                   Orientation="Horizontal" 
+                   HorizontalAlignment="Right">
+                    <ui:Button 
+                       Content="╳" 
+                       Padding="5" 
+                       Height="30" 
+                       Width="30" 
+                       FontWeight="Bold"
+                       Click="CloseButton_Click"
+                       CornerRadius="0,10,0,0"
+                       Appearance="Transparent" 
+                       BorderBrush="Transparent"/>
+                </StackPanel>
+            </Border>
+            <ui:Image 
+                Source="/PGas_new_ai_logo_edited.png" 
+               Height="130"/>
+
+            <ui:TextBlock 
+                FontSize="24" 
+                Foreground="White" 
+                TextAlignment="Center" 
+                TextWrapping="Wrap" 
+                HorizontalAlignment="Center" 
+                Margin="0,0,0,0">
+                <Run Text="Passwords."/>
+                <LineBreak/>
+                <Run Text="Generation and storage"/>
+            </ui:TextBlock>
+
+            <ui:TextBlock 
+                Text="Аутентификация" 
+                FontSize="24" 
+                Foreground="#FFF1F1F1" 
+                TextAlignment="Center" 
+                HorizontalAlignment="Center" 
+                Margin="0,10,0,10"/>
+
+            <Border 
+                x:Name="ErrorMessageTextBoxContainer" 
+                CornerRadius="8" 
+                Background="#FFB52D2D" 
+                Margin="99,10,93,0" 
+                Padding="10" Visibility="Collapsed">
+                <Viewbox 
+                    Stretch="Uniform" 
+                    StretchDirection="DownOnly">
+                    <TextBlock
+                        Text="Ошибка 69: Я сосал меня ебали"
+                        Foreground="White"
+                        TextWrapping="Wrap"
+                        TextAlignment="Center"
+                        Width="180" x:Name="ErrorMessageTextBox"/>
+                </Viewbox>
+            </Border>
+
+            <!-- Поля ввода -->
+            <ui:TextBox x:Name="LoginBox"
+                    PlaceholderText="Логин"
+                    Margin="99,10,93,0"
+                    Height="36"
+                    Width="180"
+                    TextChanged="LoginBox_TextChanged"/>
+
+            <ui:PasswordBox x:Name="PasswordBox"
+                        PlaceholderText="Пароль"
+                        Margin="99,10,93,0"
+                        Height="36"
+                        Width="180"
+                        TextChanged="PasswordBox_TextChanged"/>
+
+            <ui:Button x:Name="LoginButton"
+                   Content="Вход"
+                   Click="EnterButton_Click"
+                   Height="38"
+                   Width="92"
+                   Margin="0,20,0,0"
+                   HorizontalAlignment="Center"
+                   Foreground="#FFF1F1F1"
+                   FontSize="24"/>
+        </StackPanel>
+    </Border>
+</Window>
