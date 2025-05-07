@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using Newtonsoft.Json;
 
 
@@ -21,7 +22,50 @@ namespace PGas_v2._0._0
     public partial class LoginWindow : Window
     {
 
-        bool DEBUG = true;
+        bool DEBUG = false;
+
+        private DispatcherTimer loadingTimer;
+        private int loadingStep = 0;
+
+        private void StartLoadingAnimation()
+        {
+            LoadingTextBlock.Visibility = Visibility.Visible;
+            loadingStep = 0;
+
+            loadingTimer = new DispatcherTimer();
+            loadingTimer.Interval = TimeSpan.FromMilliseconds(300); // скорость смены
+            loadingTimer.Tick += (s, e) =>
+            {
+                loadingStep = (loadingStep + 1) % 4;
+                switch (loadingStep)
+                {
+                    case 0:
+                        LoadingTextBlock.Text = ".\\.";
+                        break;
+                    case 1:
+                        LoadingTextBlock.Text = "./..";
+                        break;
+                    case 2:
+                        LoadingTextBlock.Text = ".\\...";
+                        break;
+                    case 3:
+                        LoadingTextBlock.Text = "./";
+                        break;
+                }
+            };
+            loadingTimer.Start();
+        }
+
+        private void StopLoadingAnimation()
+        {
+            if (loadingTimer != null)
+            {
+                loadingTimer.Stop();
+                LoadingTextBlock.Visibility = Visibility.Collapsed;
+                LoadingTextBlock.Text = string.Empty;
+            }
+        }
+
 
         public LoginWindow()
         {
@@ -144,6 +188,8 @@ namespace PGas_v2._0._0
 
             this.EnabledSwitcher();
             this.HideErrorMessage();
+            this.StartLoadingAnimation();
+
 
             string username = LoginBox.Text;
             string password = PasswordBox.Password;
@@ -153,11 +199,13 @@ namespace PGas_v2._0._0
                 this.ShowErrorMessage("Введите имя пользователя и пароль");
                 this.EnabledSwitcher();
                 this.BoxesErrorHighlightting();
+                this.StopLoadingAnimation();
                 return;
             }
 
             else if (String.IsNullOrEmpty(username))
             {
+                this.StopLoadingAnimation();
                 this.ShowErrorMessage("Введите имя пользователя");
                 this.EnabledSwitcher();
                 this.LoginBoxErrorHighlighting();
@@ -166,6 +214,7 @@ namespace PGas_v2._0._0
 
             else if (String.IsNullOrEmpty(password))
             {
+                this.StopLoadingAnimation();
                 this.ShowErrorMessage("Введите пароль");
                 this.EnabledSwitcher();
                 this.PasswordBoxErrorHighlighting();
@@ -175,6 +224,7 @@ namespace PGas_v2._0._0
             var result = await LoginAsync(username, password);
             if (!string.IsNullOrEmpty(result.ErrorMessage))
             {
+                this.StopLoadingAnimation();
                 this.ShowErrorMessage(result.ErrorMessage);
                 this.BoxesErrorHighlightting();
                 this.EnabledSwitcher();

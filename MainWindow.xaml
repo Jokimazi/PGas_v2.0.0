@@ -16,27 +16,35 @@
         Background="Transparent">
 
     <Border CornerRadius="10" Background="#FF444444">
+        <Border 
+            VerticalAlignment="Top" 
+            Height="30" 
+            Background="#FF444444" 
+            MouseDown="TitleBar_MouseDown" 
+            CornerRadius="10">
 
-        <Grid>
-            <Border 
-                VerticalAlignment="Top" 
-                Height="30" 
-                Background="#FF444444" 
-                MouseDown="TitleBar_MouseDown" 
-                CornerRadius="10">
+            <Grid>
+                <TextBlock 
+                    Text="Passwords. Generating and storage" 
+                    VerticalAlignment="Center" 
+                    HorizontalAlignment="Left" 
+                    Margin="10,0,0,0" 
+                    Foreground="White" 
+                    FontWeight="SemiBold"/>
+
                 <StackPanel 
                     Orientation="Horizontal" 
                     HorizontalAlignment="Right">
-                    
+
                     <ui:Button 
                         Content="―" Padding="5" 
                         Height="30" Width="30" 
-                        FontWeight="Bold" 
+                        FontWeight="Bold"
                         Click="HideButton_Click" 
                         CornerRadius="0,0,0,0"
                         Appearance="Transparent" 
                         BorderBrush="Transparent"/>
-                    
+
                     <ui:Button 
                         Content="╳" 
                         Padding="5" 
@@ -47,11 +55,8 @@
                         CornerRadius="0,10,0,0" 
                         Appearance="Transparent" 
                         BorderBrush="Transparent"/>
-                    
                 </StackPanel>
-            </Border>
-            
-            
-        </Grid>
+            </Grid>
+        </Border>
     </Border>
 </Window>

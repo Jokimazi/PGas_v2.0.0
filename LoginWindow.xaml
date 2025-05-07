@@ -81,7 +81,6 @@
                 </Viewbox>
             </Border>
 
-            <!-- Поля ввода -->
             <ui:TextBox x:Name="LoginBox"
                     PlaceholderText="Логин"
                     Margin="99,10,93,0"
@@ -95,7 +94,7 @@
                         Height="36"
                         Width="180"
                         TextChanged="PasswordBox_TextChanged"/>
-
+            
             <ui:Button x:Name="LoginButton"
                    Content="Вход"
                    Click="EnterButton_Click"
@@ -105,6 +104,14 @@
                    HorizontalAlignment="Center"
                    Foreground="#FFF1F1F1"
                    FontSize="24"/>
+            
+            <TextBlock 
+                x:Name="LoadingTextBlock" 
+                Margin="0,20,0,0" 
+                Visibility="Collapsed"
+                FontFamily="Consolas"
+                FontSize="18" 
+                HorizontalAlignment="Center" Foreground="White"/>
         </StackPanel>
     </Border>
 </Window>
