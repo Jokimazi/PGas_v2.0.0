@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -15,14 +16,14 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using Newtonsoft.Json;
+using Wpf.Ui.Controls;
+using static PGas_v2._0._0.GlobalVariables;
 
 
 namespace PGas_v2._0._0
 {
-    public partial class LoginWindow : Window
+    public partial class LoginWindow : FluentWindow
     {
-
-        bool DEBUG = false;
 
         private DispatcherTimer loadingTimer;
         private int loadingStep = 0;
@@ -33,23 +34,23 @@ namespace PGas_v2._0._0
             loadingStep = 0;
 
             loadingTimer = new DispatcherTimer();
-            loadingTimer.Interval = TimeSpan.FromMilliseconds(300); // скорость смены
+            loadingTimer.Interval = TimeSpan.FromMilliseconds(100);
             loadingTimer.Tick += (s, e) =>
             {
                 loadingStep = (loadingStep + 1) % 4;
                 switch (loadingStep)
                 {
                     case 0:
-                        LoadingTextBlock.Text = ".\\.";
+                        LoadingTextBlock.Text = "Ɛ=D";
                         break;
                     case 1:
-                        LoadingTextBlock.Text = "./..";
+                        LoadingTextBlock.Text = "Ɛ==D";
                         break;
                     case 2:
-                        LoadingTextBlock.Text = ".\\...";
+                        LoadingTextBlock.Text = "Ɛ===D";
                         break;
                     case 3:
-                        LoadingTextBlock.Text = "./";
+                        LoadingTextBlock.Text = "Ɛ==D";
                         break;
                 }
             };
@@ -133,8 +134,6 @@ namespace PGas_v2._0._0
         {
             using (HttpClient client = new HttpClient())
             {
-                var url = "https://pgas.jokimazi.site/rest-api/token-obtain-pair/";
-
                 var data = new
                 {
                     username = username,
@@ -144,7 +143,7 @@ namespace PGas_v2._0._0
                 string json = JsonConvert.SerializeObject(data);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await client.PostAsync(url, content);
+                HttpResponseMessage response = await client.PostAsync(REST_API_URL, content);
 
                 string responseContent = await response.Content.ReadAsStringAsync();
 
@@ -178,13 +177,6 @@ namespace PGas_v2._0._0
 
         private async void EnterButton_Click(object sender, RoutedEventArgs e)
         {
-            if (DEBUG)
-            {
-                var main = new MainWindow();
-                main.Show();
-                this.Close();
-
-            }
 
             this.EnabledSwitcher();
             this.HideErrorMessage();
@@ -231,11 +223,11 @@ namespace PGas_v2._0._0
             }
             else
             {
-                var main = new MainWindow();
-                // main.AccessToken.Text = result.AccessToken;
-                // main.RefreshToken.Text = result.RefreshToken;
-                main.Show();
-                this.Close();
+
+                ACCESS_TOKEN = result.AccessToken;
+                REFRESH_TOKEN = result.RefreshToken;
+
+                SwitchWindowToMain();
             }
         }
 
@@ -247,7 +239,23 @@ namespace PGas_v2._0._0
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
+            Application.Current.Shutdown();
+        }
+
+        private async void SwitchWindowToMain()
+        {
             this.Close();
+            var main = new MainWindow();
+
+            await Task.Delay(100);
+
+            main.Show();
+        }
+
+
+        private void DevEnter(object sender, RoutedEventArgs e)
+        {
+            SwitchWindowToMain();
         }
 
         private void PasswordBox_TextChanged(object sender, TextChangedEventArgs e)

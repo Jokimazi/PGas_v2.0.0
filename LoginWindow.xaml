@@ -1,4 +1,4 @@
-﻿<Window x:Class="PGas_v2._0._0.LoginWindow"
+﻿<ui:FluentWindow x:Class="PGas_v2._0._0.LoginWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -9,24 +9,37 @@
         Title="PGas | Вход"
         Height="568"
         Width="372"
+        Background="Transparent"
+        MinWidth="372"
         WindowStartupLocation="CenterScreen"
-        ResizeMode="NoResize"
-        WindowStyle="None"
-        AllowsTransparency="True"
-        Background="Transparent">
+        Icon="/resources/PGas_program_logo.ico">
 
     <Border
         CornerRadius="10"
-        Background="#FF444444">
+        Background="#FF444444"
+        Visibility="Visible">
         <StackPanel>
+
             <Border 
                Height="30" 
-               Background="#FF444444" 
                MouseDown="TitleBar_MouseDown" 
+               Background="#FF444444"
                CornerRadius="10">
                 <StackPanel 
                    Orientation="Horizontal" 
                    HorizontalAlignment="Right">
+
+                    <ui:Button 
+                       Content="Dev" 
+                       Padding="5" 
+                       Height="30" 
+                       Width="50" 
+                       FontWeight="Bold"
+                       Click="DevEnter"
+                       CornerRadius="0,0,0,0"
+                       Appearance="Transparent" 
+                       BorderBrush="Transparent"/>
+                    
                     <ui:Button 
                        Content="╳" 
                        Padding="5" 
@@ -39,9 +52,11 @@
                        BorderBrush="Transparent"/>
                 </StackPanel>
             </Border>
+
             <ui:Image 
-                Source="/PGas_new_ai_logo_edited.png" 
-               Height="130"/>
+                Source="/resources/PGas_new_ai_logo_edited_2_smooth_2.png" 
+                Height="130"
+                Margin="0,10,0,0"/>
 
             <ui:TextBlock 
                 FontSize="24" 
@@ -67,34 +82,43 @@
                 x:Name="ErrorMessageTextBoxContainer" 
                 CornerRadius="8" 
                 Background="#FFB52D2D" 
-                Margin="99,10,93,0" 
-                Padding="10" Visibility="Collapsed">
-                <Viewbox 
-                    Stretch="Uniform" 
-                    StretchDirection="DownOnly">
+                Margin="96,10,96,0" 
+                Padding="10"
+                Visibility="Collapsed"
+                MaxHeight="76">
+
+                <ScrollViewer 
+                    VerticalScrollBarVisibility="Auto"
+                    HorizontalScrollBarVisibility="Disabled">
+
                     <TextBlock
-                        Text="Ошибка 69: Я сосал меня ебали"
+                        x:Name="ErrorMessageTextBox"
                         Foreground="White"
                         TextWrapping="Wrap"
                         TextAlignment="Center"
-                        Width="180" x:Name="ErrorMessageTextBox"/>
-                </Viewbox>
+                        FontSize="14"
+                        LineHeight="11"
+                        Text="Ошибка 69: У вас слишком, невероятно, чересчур длинный... текст :)))"/>
+
+                </ScrollViewer>
+
             </Border>
+
 
             <ui:TextBox x:Name="LoginBox"
                     PlaceholderText="Логин"
-                    Margin="99,10,93,0"
+                    Margin="93,10,93,0"
                     Height="36"
                     Width="180"
                     TextChanged="LoginBox_TextChanged"/>
 
             <ui:PasswordBox x:Name="PasswordBox"
                         PlaceholderText="Пароль"
-                        Margin="99,10,93,0"
+                        Margin="93,10,93,0"
                         Height="36"
                         Width="180"
                         TextChanged="PasswordBox_TextChanged"/>
-            
+
             <ui:Button x:Name="LoginButton"
                    Content="Вход"
                    Click="EnterButton_Click"
@@ -102,16 +126,51 @@
                    Width="92"
                    Margin="0,20,0,0"
                    HorizontalAlignment="Center"
-                   Foreground="#FFF1F1F1"
-                   FontSize="24"/>
-            
+                   FontSize="24">
+                <ui:Button.PressedBorderBrush>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#12FFFFFF" Offset="0.84"/>
+                        <GradientStop Color="#FF0064B3" Offset="0.853"/>
+                    </LinearGradientBrush>
+                </ui:Button.PressedBorderBrush>
+                <ui:Button.MouseOverBorderBrush>
+                    <LinearGradientBrush EndPoint="0,3" MappingMode="Absolute">
+                        <LinearGradientBrush.RelativeTransform>
+                            <TransformGroup>
+                                <ScaleTransform CenterX="0.5" CenterY="0.5"/>
+                                <SkewTransform CenterX="0.5" CenterY="0.5"/>
+                                <RotateTransform Angle="-180" CenterY="0.5" CenterX="0.5"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </LinearGradientBrush.RelativeTransform>
+                        <GradientStop Color="#18FFFFFF" Offset="1"/>
+                        <GradientStop Color="#FF0072CA" Offset="0.99"/>
+                    </LinearGradientBrush>
+                </ui:Button.MouseOverBorderBrush>
+                <ui:Button.BorderBrush>
+                    <LinearGradientBrush EndPoint="0,3" MappingMode="Absolute">
+                        <LinearGradientBrush.RelativeTransform>
+                            <TransformGroup>
+                                <ScaleTransform CenterX="0.5" CenterY="0.5"/>
+                                <SkewTransform CenterX="0.5" CenterY="0.5"/>
+                                <RotateTransform Angle="-180" CenterY="0.5" CenterX="0.5"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </LinearGradientBrush.RelativeTransform>
+                        <GradientStop Color="#18FFFFFF" Offset="1"/>
+                        <GradientStop Color="#FF0078D7" Offset="0.99"/>
+                    </LinearGradientBrush>
+                </ui:Button.BorderBrush>
+            </ui:Button>
+
             <TextBlock 
                 x:Name="LoadingTextBlock" 
                 Margin="0,20,0,0" 
                 Visibility="Collapsed"
                 FontFamily="Consolas"
                 FontSize="18" 
-                HorizontalAlignment="Center" Foreground="White"/>
+                HorizontalAlignment="Center" 
+                Foreground="White"/>
         </StackPanel>
     </Border>
-</Window>
+</ui:FluentWindow>

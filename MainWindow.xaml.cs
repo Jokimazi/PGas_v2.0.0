@@ -15,10 +15,12 @@ using System.Drawing;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
+using static PGas_v2._0._0.GlobalVariables;
+using Wpf.Ui.Controls;
 
 namespace PGas_v2._0._0
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow : FluentWindow
     {
         public MainWindow()
         {
@@ -28,6 +30,7 @@ namespace PGas_v2._0._0
         private void HideButton_Click(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Minimized;
+            
         }
 
         private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e)
@@ -38,7 +41,8 @@ namespace PGas_v2._0._0
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Application.Current.Shutdown();
         }
+
     }
 }

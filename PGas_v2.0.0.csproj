@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>resources\PGas_program_logo.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -72,6 +75,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GlobalVariables.cs" />
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -115,7 +119,16 @@
     <Resource Include="resources\PGas_new_ai_logo_edited.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="PGas_new_ai_logo_edited.png" />
+    <Resource Include="resources\PGas_new_ai_logo_edited_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\PGas_new_ai_logo_edited_2_smooth.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\PGas_new_ai_logo_edited_2_smooth_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\PGas_program_logo.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

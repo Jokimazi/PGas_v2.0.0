@@ -1,4 +1,4 @@
-﻿<Window x:Class="PGas_v2._0._0.MainWindow"
+﻿<ui:FluentWindow x:Class="PGas_v2._0._0.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -9,54 +9,97 @@
         Title="Passwords. Generating and storage"
         Height="568"
         Width="926"
-        WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
-        WindowStyle="None"
-        AllowsTransparency="True"
-        Background="Transparent">
+        WindowStartupLocation="CenterScreen"
+        Background="Transparent"
+        Icon="/resources/PGas_program_logo.ico">
 
     <Border CornerRadius="10" Background="#FF444444">
-        <Border 
-            VerticalAlignment="Top" 
-            Height="30" 
-            Background="#FF444444" 
-            MouseDown="TitleBar_MouseDown" 
-            CornerRadius="10">
+        <StackPanel>
+            <Border 
+                VerticalAlignment="Top" 
+                Height="30" 
+                Background="#FF444444" 
+                MouseDown="TitleBar_MouseDown" 
+                CornerRadius="10">
 
-            <Grid>
-                <TextBlock 
+                <Grid>
+                    <TextBlock 
                     Text="Passwords. Generating and storage" 
                     VerticalAlignment="Center" 
-                    HorizontalAlignment="Left" 
+                    HorizontalAlignment="Center" 
                     Margin="10,0,0,0" 
                     Foreground="White" 
                     FontWeight="SemiBold"/>
 
-                <StackPanel 
+                    <StackPanel 
                     Orientation="Horizontal" 
                     HorizontalAlignment="Right">
 
-                    <ui:Button 
+                        <ui:Button 
                         Content="―" Padding="5" 
                         Height="30" Width="30" 
                         FontWeight="Bold"
-                        Click="HideButton_Click" 
+                        Click="HideButton_Click"
+                        Appearance="Transparent"
                         CornerRadius="0,0,0,0"
-                        Appearance="Transparent" 
                         BorderBrush="Transparent"/>
 
-                    <ui:Button 
+                        <ui:Button 
                         Content="╳" 
                         Padding="5" 
                         Height="30" 
                         Width="30" 
                         FontWeight="Bold" 
                         Click="CloseButton_Click" 
+                        Appearance="Transparent"
                         CornerRadius="0,10,0,0" 
-                        Appearance="Transparent" 
                         BorderBrush="Transparent"/>
-                </StackPanel>
-            </Grid>
-        </Border>
+
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <Border >
+                <Grid ShowGridLines="True">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="538"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <ui:Image Height="61" Source="/resources/PGas_new_ai_logo_edited_2_smooth_2.png" Width="100"/>
+
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1">
+                        <ui:Button
+                           Content="Вход"
+                           Height="38"
+                           Width="92"
+                           VerticalAlignment="Bottom"
+                           Foreground="#FFF1F1F1"
+                           FontSize="24"/>
+
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2">
+                        <ui:Button
+                           Content="Вход"
+                           Height="38"
+                           Width="92"
+                           VerticalAlignment="Bottom"
+                           Foreground="#FFF1F1F1"
+                           FontSize="24"/>
+                    </StackPanel>
+
+                </Grid>
+            </Border>
+        </StackPanel>
     </Border>
-</Window>
+</ui:FluentWindow>

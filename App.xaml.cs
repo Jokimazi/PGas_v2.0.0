@@ -5,12 +5,11 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Wpf.Ui;
+using Wpf.Ui.Appearance;
 
 namespace PGas_v2._0._0
 {
-    /// <summary>
-    /// Логика взаимодействия для App.xaml
-    /// </summary>
     public partial class App : Application
     {
     }
