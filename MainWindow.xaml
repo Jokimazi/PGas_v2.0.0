@@ -25,70 +25,79 @@
 
                 <Grid>
                     <TextBlock 
-                    Text="Passwords. Generating and storage" 
-                    VerticalAlignment="Center" 
-                    HorizontalAlignment="Center" 
-                    Margin="10,0,0,0" 
-                    Foreground="White" 
-                    FontWeight="SemiBold"/>
+                        Text="Passwords. Generating and storage" 
+                        VerticalAlignment="Center" 
+                        HorizontalAlignment="Center" 
+                        Margin="10,0,0,0" 
+                        Foreground="White" 
+                        FontWeight="SemiBold"/>
 
                     <StackPanel 
-                    Orientation="Horizontal" 
-                    HorizontalAlignment="Right">
+                        Orientation="Horizontal" 
+                        HorizontalAlignment="Right">
 
                         <ui:Button 
-                        Content="―" Padding="5" 
-                        Height="30" Width="30" 
-                        FontWeight="Bold"
-                        Click="HideButton_Click"
-                        Appearance="Transparent"
-                        CornerRadius="0,0,0,0"
-                        BorderBrush="Transparent"/>
+                            Content="―" Padding="5" 
+                            Height="30" Width="30" 
+                            FontWeight="Bold"
+                            Click="HideButton_Click"
+                            Appearance="Transparent"
+                            CornerRadius="0,0,0,0"
+                            BorderBrush="Transparent"/>
 
                         <ui:Button 
-                        Content="╳" 
-                        Padding="5" 
-                        Height="30" 
-                        Width="30" 
-                        FontWeight="Bold" 
-                        Click="CloseButton_Click" 
-                        Appearance="Transparent"
-                        CornerRadius="0,10,0,0" 
-                        BorderBrush="Transparent"/>
+                            Content="╳" 
+                            Padding="5" 
+                            Height="30" 
+                            Width="30" 
+                            FontWeight="Bold" 
+                            Click="CloseButton_Click" 
+                            Appearance="Transparent"
+                            CornerRadius="0,10,0,0" 
+                            BorderBrush="Transparent"/>
 
                     </StackPanel>
                 </Grid>
             </Border>
 
-            <Border >
-                <Grid ShowGridLines="True">
+            <Border>
+                <Grid 
+                    ShowGridLines="True">
+                    
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="538"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="80"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <StackPanel Grid.Column="0">
-                        <ui:Image Height="61" Source="/resources/PGas_new_ai_logo_edited_2_smooth_2.png" Width="100"/>
-
+                    <StackPanel 
+                        Grid.Column="0"
+                        Grid.Row="0">
+                        <ui:Image 
+                            Source="/resources/PGas_new_ai_logo_edited_2_smooth_2.png"/>
                     </StackPanel>
 
-                    <StackPanel Grid.Column="1">
+                    <StackPanel 
+                        Grid.Column="1"
+                        Grid.Row="0">
                         <ui:Button
                            Content="Вход"
                            Height="38"
                            Width="92"
-                           VerticalAlignment="Bottom"
+                           HorizontalAlignment="Center"
+                           Margin="0,240,0,0"
                            Foreground="#FFF1F1F1"
                            FontSize="24"/>
 
                     </StackPanel>
 
-                    <StackPanel Grid.Column="2">
+                    <StackPanel 
+                        Grid.Column="2" 
+                        Grid.Row="0">
                         <ui:Button
                            Content="Вход"
                            Height="38"
