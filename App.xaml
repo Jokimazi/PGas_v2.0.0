@@ -7,10 +7,55 @@
              ShutdownMode="OnExplicitShutdown">
     <Application.Resources>
         <ResourceDictionary>
+
+            <Style x:Key="ButtonBlueUnderline" TargetType="ui:Button">
+                <Setter Property="BorderBrush">
+                    <Setter.Value>
+                        <LinearGradientBrush EndPoint="0,3" MappingMode="Absolute">
+                            <LinearGradientBrush.RelativeTransform>
+                                <TransformGroup>
+                                    <ScaleTransform CenterX="0.5" CenterY="0.5"/>
+                                    <SkewTransform CenterX="0.5" CenterY="0.5"/>
+                                    <RotateTransform Angle="-180" CenterX="0.5" CenterY="0.5"/>
+                                </TransformGroup>
+                            </LinearGradientBrush.RelativeTransform>
+                            <GradientStop Color="#18FFFFFF" Offset="1"/>
+                            <GradientStop Color="#FF0078D7" Offset="0.99"/>
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+
+                <Setter Property="MouseOverBorderBrush">
+                    <Setter.Value>
+                        <LinearGradientBrush EndPoint="0,3" MappingMode="Absolute">
+                            <LinearGradientBrush.RelativeTransform>
+                                <TransformGroup>
+                                    <ScaleTransform CenterX="0.5" CenterY="0.5"/>
+                                    <SkewTransform CenterX="0.5" CenterY="0.5"/>
+                                    <RotateTransform Angle="-180" CenterX="0.5" CenterY="0.5"/>
+                                </TransformGroup>
+                            </LinearGradientBrush.RelativeTransform>
+                            <GradientStop Color="#18FFFFFF" Offset="1"/>
+                            <GradientStop Color="#FF0072CA" Offset="0.99"/>
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+
+                <Setter Property="PressedBorderBrush">
+                    <Setter.Value>
+                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                            <GradientStop Color="#12FFFFFF" Offset="0.84"/>
+                            <GradientStop Color="#FF0064B3" Offset="0.853"/>
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
             <ResourceDictionary.MergedDictionaries>
                 <ui:ThemesDictionary Theme="Dark" />
                 <ui:ControlsDictionary />
             </ResourceDictionary.MergedDictionaries>
+        
         </ResourceDictionary>
     </Application.Resources>
 </Application>

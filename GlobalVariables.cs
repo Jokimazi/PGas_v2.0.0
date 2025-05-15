@@ -13,5 +13,6 @@ namespace PGas_v2._0._0
         static public string ACCESS_TOKEN { get; set; }
 
         static public string REFRESH_TOKEN { get; set; }
+
     }
 }

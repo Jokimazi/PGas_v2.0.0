@@ -67,6 +67,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="UserAccount.cs" />
     <Page Include="LoginWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -75,6 +76,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ButtonBlueUnderline.cs" />
     <Compile Include="GlobalVariables.cs" />
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
@@ -129,6 +131,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="resources\PGas_program_logo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\google_logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\blank_logo.png" />
+    <Resource Include="resources\github_logo.png" />
+    <Resource Include="resources\ok_logo.png" />
+    <Resource Include="resources\vk_logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
