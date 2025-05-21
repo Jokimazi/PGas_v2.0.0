@@ -12,7 +12,7 @@
         Background="Transparent"
         MinWidth="372"
         WindowStartupLocation="CenterScreen"
-        Icon="/resources/PGas_program_logo.ico">
+        Icon="/resources/PGas_program_logo.ico" Cursor="">
 
     <Border
         CornerRadius="10"
@@ -29,27 +29,30 @@
                    Orientation="Horizontal" 
                    HorizontalAlignment="Right">
 
-                    <ui:Button 
-                       Content="Dev" 
-                       Padding="5" 
-                       Height="30" 
-                       Width="50" 
-                       FontWeight="Bold"
-                       Click="DevEnter"
-                       CornerRadius="0,0,0,0"
-                       Appearance="Transparent" 
-                       BorderBrush="Transparent"/>
+                    <ui:Button
+                        x:Name="DevEnter"
+                        Visibility="Collapsed"
+                        Content="Dev" 
+                        Padding="5" 
+                        Height="30" 
+                        Width="50" 
+                        FontWeight="Bold"
+                        Click="DevEnter_Click"
+                        CornerRadius="0,0,0,0"
+                        Appearance="Transparent" 
+                        BorderBrush="Transparent"/>
                     
                     <ui:Button 
-                       Content="╳" 
-                       Padding="5" 
-                       Height="30" 
-                       Width="30" 
-                       FontWeight="Bold"
-                       Click="CloseButton_Click"
-                       CornerRadius="0,10,0,0"
-                       Appearance="Transparent" 
-                       BorderBrush="Transparent"/>
+                        Content="╳" 
+                        Padding="5" 
+                        Height="30" 
+                        Width="30" 
+                        FontWeight="Bold"
+                        Click="CloseButton_Click"
+                        CornerRadius="0,10,0,0"
+                        Appearance="Transparent" 
+                        BorderBrush="Transparent"/>
+                    
                 </StackPanel>
             </Border>
 

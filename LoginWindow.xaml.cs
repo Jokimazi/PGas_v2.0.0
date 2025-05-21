@@ -17,7 +17,6 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using Newtonsoft.Json;
 using Wpf.Ui.Controls;
-using static PGas_v2._0._0.GlobalVariables;
 
 
 namespace PGas_v2._0._0
@@ -26,7 +25,149 @@ namespace PGas_v2._0._0
     {
 
         private DispatcherTimer loadingTimer;
+
         private int loadingStep = 0;
+
+        private readonly ApiService APIService;
+
+        private UseMode USE_MODE { get; set; } = UseMode.DevMode;
+
+        private enum UseMode
+        {
+            DevMode,
+            UserMode
+        }
+
+
+
+
+        public LoginWindow()
+        {
+            InitializeComponent();
+
+            APIService = new ApiService(ApiService.ApiServiceMode.Authentication);
+
+            if (USE_MODE == UseMode.DevMode)
+            {
+                DevEnter.Visibility = Visibility.Visible;
+            }
+        }
+
+
+
+
+        private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left && e.ClickCount == 1)
+                DragMove();
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void DevEnter_Click(object sender, RoutedEventArgs e)
+        {
+            GoToMain(UseMode.DevMode);
+        }
+
+        private async void GoToMain(UseMode usemode, string access = null, string refresh = null)
+        {
+            this.Close();
+
+            MainWindow main;
+
+            if (usemode == UseMode.DevMode) 
+            { 
+                main = new MainWindow(MainWindow.UseMode.DevMode);
+            } 
+            else
+            {
+                main = new MainWindow(MainWindow.UseMode.UserMode);
+            }
+
+            await Task.Delay(100);
+
+            main.Show();
+        }
+
+        private async void EnterButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            EnabledSwitcher();
+            HideErrorMessage();
+            StartLoadingAnimation();
+
+
+            string username = LoginBox.Text;
+            string password = PasswordBox.Password;
+
+            if (String.IsNullOrEmpty(username) && String.IsNullOrEmpty(password))
+            {
+                ShowErrorMessage("Введите имя пользователя и пароль");
+                EnabledSwitcher();
+                BoxesErrorHighlightting();
+                StopLoadingAnimation();
+                return;
+            }
+
+            else if (String.IsNullOrEmpty(username))
+            {
+                StopLoadingAnimation();
+                ShowErrorMessage("Введите имя пользователя");
+                EnabledSwitcher();
+                LoginBoxErrorHighlighting();
+                return;
+            }
+
+            else if (String.IsNullOrEmpty(password))
+            {
+                StopLoadingAnimation();
+                ShowErrorMessage("Введите пароль");
+                EnabledSwitcher();
+                    PasswordBoxErrorHighlighting();
+                return;
+            }
+
+            var result = await APIService.AuthAsync(username, password);
+
+            if (!string.IsNullOrEmpty(result.ErrorMessage))
+            {
+                StopLoadingAnimation();
+                ShowErrorMessage(result.ErrorMessage);
+                BoxesErrorHighlightting();
+                EnabledSwitcher();
+            }
+            else
+            {
+                GoToMain(UseMode.UserMode);
+            }
+        }
+        
+
+
+
+        private void EnabledSwitcher()
+        {
+            LoginBox.IsEnabled = !LoginBox.IsEnabled;
+            PasswordBox.IsEnabled = !PasswordBox.IsEnabled;
+            LoginButton.IsEnabled = !LoginButton.IsEnabled;
+        }
+
+        private void ShowErrorMessage(string error)
+        {
+            ErrorMessageTextBoxContainer.Visibility = Visibility.Visible;
+            ErrorMessageTextBox.Text = error;
+        }
+
+        private void HideErrorMessage()
+        {
+            ErrorMessageTextBoxContainer.Visibility = Visibility.Collapsed;
+        }
+
+
+
 
         private void StartLoadingAnimation()
         {
@@ -68,10 +209,7 @@ namespace PGas_v2._0._0
         }
 
 
-        public LoginWindow()
-        {
-            InitializeComponent();
-        }
+
 
         private void LoginBoxErrorHighlighting()
         {
@@ -100,163 +238,8 @@ namespace PGas_v2._0._0
             PasswordBox.ClearValue(Control.BorderBrushProperty);
         }
 
-        private void EnabledSwitcher()
-        {
-            LoginBox.IsEnabled = !LoginBox.IsEnabled;
-            PasswordBox.IsEnabled = !PasswordBox.IsEnabled;
-            LoginButton.IsEnabled = !LoginButton.IsEnabled;
-        }
-
-        private void ShowErrorMessage(string error)
-        {
-            ErrorMessageTextBoxContainer.Visibility = Visibility.Visible;
-            ErrorMessageTextBox.Text = error;
-        }
-
-        private void HideErrorMessage()
-        {
-            ErrorMessageTextBoxContainer.Visibility = Visibility.Collapsed;
-        }
-
-        private class AuthResponse
-        {
-            [JsonProperty("access")]
-            public string AccessToken { get; set; }
-
-            [JsonProperty("refresh")]
-            public string RefreshToken { get; set; }
-
-            public string ErrorMessage { get; set; }
-        }
 
 
-        private async Task<AuthResponse> LoginAsync(string username, string password)
-        {
-            using (HttpClient client = new HttpClient())
-            {
-                var data = new
-                {
-                    username = username,
-                    password = password
-                };
-
-                string json = JsonConvert.SerializeObject(data);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                HttpResponseMessage response = await client.PostAsync(REST_API_URL, content);
-
-                string responseContent = await response.Content.ReadAsStringAsync();
-
-                if (response.IsSuccessStatusCode)
-                {
-                    AuthResponse result = JsonConvert.DeserializeObject<AuthResponse>(responseContent);
-                    return result;
-                }
-                else
-                {
-                    return new AuthResponse
-                    {
-                        ErrorMessage = ParseErrorMessage(responseContent)
-                    };
-                }
-            }
-        }
-
-        private string ParseErrorMessage(string json)
-        {
-            try
-            {
-                var errorObj = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
-                return errorObj.Values.FirstOrDefault()?.ToString() ?? "Неизвестная ошибка";
-            }
-            catch
-            {
-                return "Ошибка при разборе сообщения: " + json;
-            }
-        }
-
-        private async void EnterButton_Click(object sender, RoutedEventArgs e)
-        {
-
-            this.EnabledSwitcher();
-            this.HideErrorMessage();
-            this.StartLoadingAnimation();
-
-
-            string username = LoginBox.Text;
-            string password = PasswordBox.Password;
-
-            if (String.IsNullOrEmpty(username) && String.IsNullOrEmpty(password))
-            {
-                this.ShowErrorMessage("Введите имя пользователя и пароль");
-                this.EnabledSwitcher();
-                this.BoxesErrorHighlightting();
-                this.StopLoadingAnimation();
-                return;
-            }
-
-            else if (String.IsNullOrEmpty(username))
-            {
-                this.StopLoadingAnimation();
-                this.ShowErrorMessage("Введите имя пользователя");
-                this.EnabledSwitcher();
-                this.LoginBoxErrorHighlighting();
-                return;
-            }
-
-            else if (String.IsNullOrEmpty(password))
-            {
-                this.StopLoadingAnimation();
-                this.ShowErrorMessage("Введите пароль");
-                this.EnabledSwitcher();
-                this.PasswordBoxErrorHighlighting();
-                return;
-            }
-
-            var result = await LoginAsync(username, password);
-            if (!string.IsNullOrEmpty(result.ErrorMessage))
-            {
-                this.StopLoadingAnimation();
-                this.ShowErrorMessage(result.ErrorMessage);
-                this.BoxesErrorHighlightting();
-                this.EnabledSwitcher();
-            }
-            else
-            {
-
-                ACCESS_TOKEN = result.AccessToken;
-                REFRESH_TOKEN = result.RefreshToken;
-
-                SwitchWindowToMain();
-            }
-        }
-
-        private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ChangedButton == MouseButton.Left && e.ClickCount == 1)
-                DragMove();
-        }
-
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
-        }
-
-        private async void SwitchWindowToMain()
-        {
-            this.Close();
-            var main = new MainWindow();
-
-            await Task.Delay(100);
-
-            main.Show();
-        }
-
-
-        private void DevEnter(object sender, RoutedEventArgs e)
-        {
-            SwitchWindowToMain();
-        }
 
         private void PasswordBox_TextChanged(object sender, TextChangedEventArgs e)
         {

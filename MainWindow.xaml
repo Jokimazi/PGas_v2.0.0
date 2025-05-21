@@ -8,9 +8,8 @@
     xmlns:local="clr-namespace:PGas_v2._0._0"
     mc:Ignorable="d"
     Title="Passwords. Generating and storage"
-    Height="600"
-    Width="950"
-    ResizeMode="NoResize"
+    Height="666"
+    Width="924"
     WindowStartupLocation="CenterScreen"
     Background="Transparent"
     Icon="/resources/PGas_program_logo.ico">
@@ -22,6 +21,8 @@
             <Grid.RowDefinitions>
                 <RowDefinition 
                     Height="30"/>
+                <RowDefinition 
+                    Height="50"/>
                 <RowDefinition 
                     Height="*"/>
             </Grid.RowDefinitions>
@@ -71,7 +72,49 @@
                 </Grid>
             </Border>
 
-            <Grid Grid.Row="1" Margin="20,10,20,20">
+            <Border 
+                Grid.Row="1"
+                Background="#FF2E2E2E"
+                Margin="20,0,20,0"
+                CornerRadius="10"
+                Padding="10,0,10,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition
+                            Width="*"/>
+                        <ColumnDefinition
+                            Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel
+                        Orientation="Horizontal"
+                        Grid.Column="0">
+
+                        <ui:Button 
+                            Content="➕"
+                            Foreground="#FF05B900"
+                            Padding="0"
+                            Height="30" 
+                            Width="30"
+                            FontSize="50"
+                            Appearance="Transparent"
+                            CornerRadius="10" 
+                            BorderBrush="Transparent" FontWeight="Bold" MouseOverBackground="#FF05BF00"/>
+                        
+
+                    </StackPanel>
+                    <ui:Button
+                        x:Name="GoToLogin"
+                        Content="Выход из системы"
+                        Grid.Column="1"
+                        Click="GoToLogin_Click"/>
+                </Grid>
+
+                
+                
+            </Border>
+
+            <Grid Grid.Row="2" Margin="20,10,20,20">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="300"/>
                     <ColumnDefinition Width="*"/>
@@ -88,14 +131,15 @@
                             <RowDefinition 
                                 Height="*"/>
                         </Grid.RowDefinitions>
-                        
-                        <ui:AutoSuggestBox 
+
+                        <ui:AutoSuggestBox
                             Height="35"
                             PlaceholderText="Поиск"
                             SuggestionChosen="AutoSuggestBox_SuggestionChosen"
                             TextChanged="AutoSuggestBox_TextChanged"
                             Grid.Row="0"
                             ItemsSource="{x:Null}"/>
+                        
 
                         <ListBox x:Name="AccountsList"
                                  BorderThickness="0"
@@ -194,33 +238,81 @@
                             FontWeight="Bold" 
                             Margin="0,0,0,10"/>
 
-                        <ui:TextBox 
-                            x:Name="ServiceNameTextBox" 
-                            Margin="0,5,300,10"
-                            PlaceholderText="Название сервиса"
-                            Text=""/>
+                        <ComboBox 
+                            x:Name="ServiceComboBox"
+                            Margin="0,5,0,10"
+                            MinWidth="240"
+                            StaysOpenOnEdit="True"
+                            HorizontalAlignment="Left"
+                            SelectionChanged="ServiceComboBox_SelectionChanged">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image 
+                                            Source="{Binding Icon}"
+                                            Width="20" Height="20"
+                                            Margin="0,0,8,0"
+                                            RenderOptions.BitmapScalingMode="HighQuality"/>
+                                        <TextBlock
+                                            Text="{Binding Name}" 
+                                            HorizontalAlignment="Left"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                           </ComboBox.ItemTemplate>
+                        </ComboBox>
 
                         <ui:TextBox 
-                            x:Name="UrlTextBox" 
-                            Margin="0,5,300,10"
+                            x:Name="UnotherServiceTextBox"
+                            Margin="0,5,0,10"
+                            HorizontalAlignment="Left"
+                            MinWidth="240"
+                            TextChanged="UnotherServiceTextBox_TextChanged"
+                            PlaceholderText="Название сервиса"/>
+
+                        <ui:TextBox 
+                            x:Name="UrlTextBox"
+                            Margin="0,5,0,10"
+                            HorizontalAlignment="Left"
+                            MinWidth="240"
+                            TextChanged="UrlTextBox_TextChanged"
                             PlaceholderText="Ссылка на сервис"/>
 
                         <ui:TextBox 
                             x:Name="LoginTextBox" 
-                            Margin="0,5,300,10"
+                            Margin="0,5,0,10"
+                            MinWidth="240"
+                            HorizontalAlignment="Left"
+                            TextChanged="LoginTextBox_TextChanged"
                             PlaceholderText="Логин"/>
 
                         <ui:PasswordBox 
                             x:Name="PasswordBox" 
-                            Margin="0,5,300,20"
-                            PlaceholderText="Пароль" OverridesDefaultStyle="True"/>
+                            Margin="0,5,30,20"
+                            HorizontalAlignment="Left"
+                            MinWidth="240"
+                            TextChanged="PasswordBox_TextChanged"
+                            PlaceholderText="Пароль"/>
 
-                        <ui:Button x:Name="LoginButton"
-                           Content="Сохранить изменения"
-                           Height="38"
-                           Width="170"
-                           HorizontalAlignment="Left"
-                           FontSize="24">
+                        <Grid
+                            Width="240"
+                            HorizontalAlignment="Left">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition
+                                    Width="Auto"/>
+                                <ColumnDefinition
+                                    Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <ui:Button 
+                            x:Name="SaveButton"
+                            Content="Сохранить изменения"
+                            Height="38"
+                            Width="170"
+                            HorizontalAlignment="Left"
+                            FontSize="24"
+                            IsEnabled="False"
+                            Grid.Column="0">
                             <ui:Button.PressedBorderBrush>
                                 <LinearGradientBrush 
                                     EndPoint="0.5,1" 
@@ -261,34 +353,43 @@
                                 </LinearGradientBrush>
                             </ui:Button.MouseOverBorderBrush>
                             <ui:Button.BorderBrush>
-                                <LinearGradientBrush 
+                                    <LinearGradientBrush 
                                     EndPoint="0,3" 
                                     MappingMode="Absolute">
-                                    <LinearGradientBrush.RelativeTransform>
-                                        <TransformGroup>
-                                            <ScaleTransform 
+                                        <LinearGradientBrush.RelativeTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform 
                                                 CenterX="0.5" 
                                                 CenterY="0.5"/>
-                                            <SkewTransform 
+                                                <SkewTransform 
                                                 CenterX="0.5" 
                                                 CenterY="0.5"/>
-                                            <RotateTransform 
+                                                <RotateTransform 
                                                 Angle="-180" 
                                                 CenterY="0.5" 
                                                 CenterX="0.5"/>
-                                            <TranslateTransform/>
-                                        </TransformGroup>
-                                    </LinearGradientBrush.RelativeTransform>
-                                    <GradientStop 
+                                                <TranslateTransform/>
+                                            </TransformGroup>
+                                        </LinearGradientBrush.RelativeTransform>
+                                        <GradientStop 
                                         Color="#18FFFFFF" 
                                         Offset="1"/>
-                                    <GradientStop 
+                                        <GradientStop 
                                         Color="#FF0078D7" 
                                         Offset="0.99"/>
-                                </LinearGradientBrush>
-                                
-                            </ui:Button.BorderBrush>
-                        </ui:Button>
+                                    </LinearGradientBrush>
+                                </ui:Button.BorderBrush>
+                            </ui:Button>
+
+                            <ui:Button
+                                Grid.Column="1"
+                                HorizontalAlignment="Right"
+                                Content="D"
+                                Height="38"
+                                Width="46" Appearance="Danger"/>
+                        </Grid>
+                        
+                        
                     </StackPanel>
                 </Border>
             </Grid>

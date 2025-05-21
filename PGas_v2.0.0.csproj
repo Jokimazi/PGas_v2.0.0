@@ -67,6 +67,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ApiService.cs" />
+    <Compile Include="ServiceItems.cs" />
     <Compile Include="UserAccount.cs" />
     <Page Include="LoginWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -76,8 +78,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ButtonBlueUnderline.cs" />
-    <Compile Include="GlobalVariables.cs" />
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -133,13 +133,17 @@
     <Resource Include="resources\PGas_program_logo.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="resources\google_logo.png" />
+    <Resource Include="resources\services_logos\google_logo.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="resources\blank_logo.png" />
-    <Resource Include="resources\github_logo.png" />
-    <Resource Include="resources\ok_logo.png" />
-    <Resource Include="resources\vk_logo.png" />
+    <Resource Include="resources\services_logos\blank_logo.png" />
+    <Resource Include="resources\services_logos\github_logo.png" />
+    <Resource Include="resources\services_logos\ok_logo.png" />
+    <Resource Include="resources\services_logos\vk_logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\services_logos\pinterest_logo.png" />
+    <Resource Include="resources\placeholder_pgas_logo.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

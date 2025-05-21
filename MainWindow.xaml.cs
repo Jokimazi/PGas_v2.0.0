@@ -15,48 +15,215 @@ using System.Drawing;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
-using static PGas_v2._0._0.GlobalVariables;
 using Wpf.Ui.Controls;
 using System.Security.Principal;
+using System.Windows.Media.TextFormatting;
+using System.Diagnostics.Tracing;
+using System.Windows.Controls.Primitives;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Net.Http.Headers;
+using System.Windows.Media.Animation;
 
 namespace PGas_v2._0._0
 {
     public partial class MainWindow : FluentWindow
     {
-        private List<UserAccount> allAccounts;
+        public List<UserAccount> AllAccounts { get; set; }
 
-        public MainWindow()
+        public List<ServiceItems.ServiceItem> AllServices { get; set; }
+
+        private readonly ApiService APIService;
+
+        public enum UseMode
+        {
+            DevMode,
+            UserMode
+        }
+
+        public MainWindow(UseMode usemode)
         {
             InitializeComponent();
+                
+            AllServices = new ServiceItems().AllServices;
+            ServiceComboBox.ItemsSource = AllServices;
+            ServiceComboBox.SelectedItem = AllServices.FirstOrDefault(s => s.Name == "Другой сервис");
 
-            allAccounts = new List<UserAccount>
+            if (usemode == UseMode.DevMode)
             {
-            new UserAccount { Service = "Google", Url = "https://google.com", Login = "login1login@pok.df", Password = "pis123", AddvancedOptions = null, Icon = "/resources/google_logo.png" },
-            new UserAccount { Service = "Google", Url = "https://google.com", Login = "jozi@google.com", Password = "pis123", AddvancedOptions = null, Icon = "/resources/google_logo.png" },
-            new UserAccount { Service = "GitHub", Url = "https://gihub.com", Login = "login1nelogin", Password = "passosp12", AddvancedOptions = null, Icon = "/resources/github_logo.png" },
-            new UserAccount { Service = "OK", Url = "https://ok.ru", Login = "loginperelogin341", Password = "#dsf$df", AddvancedOptions = null, Icon = "/resources/ok_logo.png" },
-            new UserAccount { Service = "ВК", Url = "https://vk.ru", Login = "login666devil", Password = "DFsdfqwerty123456", AddvancedOptions = null, Icon = "/resources/vk_logo.png" },
-            new UserAccount { Service = "KakaFonia", Url = "https://kakafonia.ru", Login = "loginPoxui", Password = "kafka23324#", AddvancedOptions = null, Icon = "/resources/blank_logo.png" }
-    };
+                var UA = new UserAccount();
 
-            AccountsList.ItemsSource = allAccounts;
+                AllAccounts = new List<UserAccount>
+                {
+                    UA.CreateUser("Google", "https://google.com", "login1login@pok.df", "pis123" ),
+                    UA.CreateUser("Google", "https://google.com", "jozi@google.com", "pis123" ),
+                    UA.CreateUser("GitHub", "https://gihub.com", "login1nelogin", "passosp12" ),
+                    UA.CreateUser("OK", "https://ok.ru", "loginperelogin341", "#dsf$df" ),
+                    UA.CreateUser("VK", "https://vk.ru", "login666devil", "DFsdfqwerty123456" ),
+                    UA.CreateUser("KakaFonia", "https://kakafonia.ru", "loginPoxui", "kafka23324#" ),
+                    UA.CreateUser("Googor", "https://lox.pidor", "loginPoxui", "kafka23324#" ),
+                    UA.CreateUser("Algol", "https://algol.net", "loginPoxui", "kafka23324#" ),
+                };
+
+                AllAccounts = AllAccounts.OrderBy(s => s.Service).ThenBy(s => s.Service.ToLower()).ToList();
+                AccountsList.ItemsSource = AllAccounts;
+            }
+            else
+            {
+                APIService = new ApiService(ApiService.ApiServiceMode.DataInteraction);
+
+                UpdateAllAccountsList();
+            }
+        }
+
+        private async void UpdateAllAccountsList()
+        {
+            AllAccounts = await APIService.GetDataAsync();
+
+            AllAccounts = AllAccounts.OrderBy(s => s.Service).ThenBy(s => s.Service.ToLower()).ToList();
+            AccountsList.ItemsSource = AllAccounts;
+        }
+
+
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void MaxMinWinButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         private void HideButton_Click(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Minimized;
-            
         }
 
         private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left && e.ClickCount == 1)
-                DragMove();
+            {
+                if (this.WindowState == WindowState.Maximized)
+                {
+                    var mousePosition = e.GetPosition(this);
+                    double percentX = mousePosition.X / this.ActualWidth;
+
+                    Point screenPoint = PointToScreen(mousePosition);
+
+                    this.WindowState = WindowState.Normal;
+
+                    this.Left = screenPoint.X - this.ActualWidth * percentX;
+                    this.Top = 0;
+
+                    DragMove();
+                }
+                else
+                {
+                    DragMove();
+                }
+            }
         }
 
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
+
+
+        private async void GoToLogin_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            this.Close();
+            var login = new LoginWindow();
+
+            await Task.Delay(100);
+
+            login.Show();
+        }
+
+
+
+
+        private void ServiceComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ServiceComboBox.SelectedItem is ServiceItems.ServiceItem selected)
+            {
+                var SelectedItem = AccountsList.SelectedItem as UserAccount;
+
+                if (SelectedItem == null || selected.Name == SelectedItem.Service)
+                {
+                    SaveButton.IsEnabled = false;
+                }
+                else
+                {
+                    SaveButton.IsEnabled = true;
+                }
+
+                if (selected.IsCustom)
+                {
+                    UnotherServiceTextBox.Visibility = Visibility.Visible;
+                    UrlTextBox.IsReadOnly = false;
+                    UrlTextBox.Text = null;
+                }
+                else
+                {
+                    UnotherServiceTextBox.Visibility = Visibility.Collapsed;
+                    UrlTextBox.IsReadOnly = true;
+                    UrlTextBox.Text = selected.Url;
+                }
+            }
+        }
+
+        private void UnotherServiceTextBox_TextChanged(object sender, RoutedEventArgs e)
+        {
+            var SelectedItem = AccountsList.SelectedItem as UserAccount;
+
+            if (SelectedItem == null || UnotherServiceTextBox.Text == SelectedItem.Service)
+            {
+                SaveButton.IsEnabled = false;
+            }
+            else
+            {
+                SaveButton.IsEnabled = true;
+            }
+        }        
+        
+        private void PasswordBox_TextChanged(object sender, RoutedEventArgs e)
+        {
+            var SelectedItem = AccountsList.SelectedItem as UserAccount;
+
+            if (SelectedItem == null || PasswordBox.Password == SelectedItem.Password)
+            {
+                SaveButton.IsEnabled = false;
+            }
+            else
+            {
+                SaveButton.IsEnabled = true;
+            }
+        }
+
+        private void UrlTextBox_TextChanged(object sender, RoutedEventArgs e)
+        {
+            var SelectedItem = AccountsList.SelectedItem as UserAccount;
+
+            if (SelectedItem == null || UrlTextBox.Name == SelectedItem.Url)
+            {
+                SaveButton.IsEnabled = false;
+            }
+            else
+            {
+                SaveButton.IsEnabled = true;
+            }
+        }
+        private void LoginTextBox_TextChanged(object sender, RoutedEventArgs e)
+        {
+            var SelectedItem = AccountsList.SelectedItem as UserAccount;
+
+            if (SelectedItem == null || LoginTextBox.Text == SelectedItem.Login)
+            {
+                SaveButton.IsEnabled = false;
+            }
+            else
+            {
+                SaveButton.IsEnabled = true;
+            }
         }
 
         private void AutoSuggestBox_TextChanged(object sender, AutoSuggestBoxTextChangedEventArgs e)
@@ -70,11 +237,11 @@ namespace PGas_v2._0._0
 
             if (string.IsNullOrWhiteSpace(query))
             {
-                AccountsList.ItemsSource = allAccounts;
+                AccountsList.ItemsSource = AllAccounts;
             }
             else
             {
-                var filtered = allAccounts.Where(acc =>
+                var filtered = AllAccounts.Where(acc =>
                     (!string.IsNullOrEmpty(acc.Service) && acc.Service.ToLower().Contains(query)) ||
                     (!string.IsNullOrEmpty(acc.Login) && acc.Login.ToLower().Contains(query))
                 ).ToList();
@@ -82,9 +249,6 @@ namespace PGas_v2._0._0
                 AccountsList.ItemsSource = filtered;
             }
         }
-
-
-
 
         private void AutoSuggestBox_SuggestionChosen(object sender, AutoSuggestBoxSuggestionChosenEventArgs e)
         {
@@ -99,7 +263,11 @@ namespace PGas_v2._0._0
         {
             if (AccountsList.SelectedItem is UserAccount selectedAccount)
             {
-                ServiceNameTextBox.Text = selectedAccount.Service;
+                var matchingService = AllServices.FirstOrDefault(s => s.Name == selectedAccount.Service);
+
+                ServiceComboBox.SelectedItem = matchingService ?? AllServices.FirstOrDefault();
+
+                UnotherServiceTextBox.Text = selectedAccount.Service;
                 UrlTextBox.Text = selectedAccount.Url;
                 LoginTextBox.Text = selectedAccount.Login;
                 PasswordBox.Password = selectedAccount.Password;
