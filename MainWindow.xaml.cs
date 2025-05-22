@@ -24,6 +24,7 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Windows.Media.Animation;
+using System.Threading;
 
 namespace PGas_v2._0._0
 {
@@ -32,6 +33,12 @@ namespace PGas_v2._0._0
         public List<UserAccount> AllAccounts { get; set; }
 
         public List<ServiceItems.ServiceItem> AllServices { get; set; }
+
+        private Thread animationThread;
+
+        private bool IsInAddMode = false;
+
+        private bool isAnimating = false;
 
         public UseMode USE_MODE { get; set; }
 
@@ -194,21 +201,50 @@ namespace PGas_v2._0._0
 
                 int id = selected.Id;
 
+                StartLogoAnimation();
+
                 if(await APIService.DeleteDataAsync(id))
                 {
                     UpdateAllAccountsList();
                 }
-            }
-        }
-        
-        private async void AddAccount_Click(object sender, RoutedEventArgs e)
-        {
 
+                StopLogoAnimation();
+            }
         }
 
         private async void SaveChange_Click(object sender, RoutedEventArgs e)
         {
+            string service = UnotherServiceTextBox.Text;
+            string url = UrlTextBox.Text;
+            string login = LoginTextBox.Text;
+            string password = PasswordBox.Password;
 
+            if (IsInAddMode)
+            {
+                StartLogoAnimation();
+
+                if (await APIService.AddDataAsync(service, url, login, password))
+                {
+                    UpdateAllAccountsList();
+                }
+
+                StopLogoAnimation();
+            }
+            else
+            {
+                UserAccount selected = AccountsList.SelectedItem as UserAccount;
+
+                int id = selected.Id;
+
+                StartLogoAnimation();
+
+                if (await APIService.UpdateDataAsync(id, service, url, login, password))
+                {
+                    UpdateAllAccountsList();
+                }
+
+                StopLogoAnimation();
+            }
         }
 
 
@@ -220,6 +256,27 @@ namespace PGas_v2._0._0
             {
                 var SelectedItem = AccountsList.SelectedItem as UserAccount;
 
+                if (selected.IsCustom)
+                {
+                    UnotherServiceTextBox.Visibility = Visibility.Visible;
+                    UnotherServiceTextBox.Text = selected.Name;
+                    UrlTextBox.IsReadOnly = false;
+                    UrlTextBox.Text = null;
+                }
+                else
+                {
+                    UnotherServiceTextBox.Visibility = Visibility.Collapsed;
+                    UnotherServiceTextBox.Text = selected.Name;
+                    UrlTextBox.IsReadOnly = true;
+                    UrlTextBox.Text = selected.Url;
+                }
+
+                if (IsInAddMode)
+                {
+                    SaveButton.IsEnabled = true;
+                    return;
+                }
+
                 if (SelectedItem == null || selected.Name == SelectedItem.Service)
                 {
                     SaveButton.IsEnabled = false;
@@ -228,25 +285,18 @@ namespace PGas_v2._0._0
                 {
                     SaveButton.IsEnabled = true;
                 }
-
-                if (selected.IsCustom)
-                {
-                    UnotherServiceTextBox.Visibility = Visibility.Visible;
-                    UrlTextBox.IsReadOnly = false;
-                    UrlTextBox.Text = null;
-                }
-                else
-                {
-                    UnotherServiceTextBox.Visibility = Visibility.Collapsed;
-                    UrlTextBox.IsReadOnly = true;
-                    UrlTextBox.Text = selected.Url;
-                }
             }
         }
 
         private void UnotherServiceTextBox_TextChanged(object sender, RoutedEventArgs e)
         {
             var SelectedItem = AccountsList.SelectedItem as UserAccount;
+
+            if (IsInAddMode)
+            {
+                SaveButton.IsEnabled = true;
+                return;
+            }
 
             if (SelectedItem == null || UnotherServiceTextBox.Text == SelectedItem.Service)
             {
@@ -263,15 +313,6 @@ namespace PGas_v2._0._0
             var SelectedItem = AccountsList.SelectedItem as UserAccount;
 
             string password = PasswordBox.Password;
-
-            if (SelectedItem == null || password == SelectedItem.Password)
-            {
-                SaveButton.IsEnabled = false;
-            }
-            else
-            {
-                SaveButton.IsEnabled = true;
-            }
 
             PasswordStrength strength = CheckPasswordStrength(password);
 
@@ -293,11 +334,34 @@ namespace PGas_v2._0._0
                     ThirdSegmentPasswordDifficultyBar.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x18, 0xC5, 0x00));
                     break;
             }
+
+            if (IsInAddMode)
+            {
+                SaveButton.IsEnabled = true;
+                return;
+            }
+
+            if (SelectedItem == null || password == SelectedItem.Password)
+            {
+                SaveButton.IsEnabled = false;
+            }
+            else
+            {
+                SaveButton.IsEnabled = true;
+            }
+
+
         }
 
         private void UrlTextBox_TextChanged(object sender, RoutedEventArgs e)
         {
             var SelectedItem = AccountsList.SelectedItem as UserAccount;
+
+            if (IsInAddMode)
+            {
+                SaveButton.IsEnabled = true;
+                return;
+            }
 
             if (SelectedItem == null || UrlTextBox.Name == SelectedItem.Url)
             {
@@ -311,6 +375,12 @@ namespace PGas_v2._0._0
         private void LoginTextBox_TextChanged(object sender, RoutedEventArgs e)
         {
             var SelectedItem = AccountsList.SelectedItem as UserAccount;
+
+            if (IsInAddMode)
+            {
+                SaveButton.IsEnabled = true;
+                return;
+            }
 
             if (SelectedItem == null || LoginTextBox.Text == SelectedItem.Login)
             {
@@ -367,6 +437,181 @@ namespace PGas_v2._0._0
                 UrlTextBox.Text = selectedAccount.Url;
                 LoginTextBox.Text = selectedAccount.Login;
                 PasswordBox.Password = selectedAccount.Password;
+            }
+        }
+
+        private void StartLogoAnimation()
+        {
+            isAnimating = true;
+
+            animationThread = new Thread(() =>
+            {
+                int frame = 0;
+                int totalFrames = 22;
+
+                while (isAnimating)
+                {
+                    string frameNumber = frame.ToString("D5");
+                    string path = $"pack://application:,,,/Resources/pgas_logo_animation_frames/PGas_new_ai_logo_edited_2_smooth_2_{frameNumber}.png";
+
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        try
+                        {
+                            BitmapImage bitmap = new BitmapImage();
+                            bitmap.BeginInit();
+                            bitmap.UriSource = new Uri(path, UriKind.Absolute);
+                            bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                            bitmap.EndInit();
+                            Logo.Source = bitmap;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Ошибка загрузки кадра {frameNumber}: {ex.Message}");
+                        }
+                    });
+
+                    frame = (frame + 1) % totalFrames;
+                    Thread.Sleep(30);
+                }
+            });
+
+            animationThread.IsBackground = true;
+            animationThread.Start();
+        }
+
+        private void StopLogoAnimation()
+        {
+            isAnimating = false;
+            animationThread?.Join();
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                try
+                {
+                    BitmapImage bitmap = new BitmapImage();
+                    bitmap.BeginInit();
+                    bitmap.UriSource = new Uri("pack://application:,,,/Resources/PGas_new_ai_logo_edited_2_smooth_2.png", UriKind.Absolute);
+                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmap.EndInit();
+                    Logo.Source = bitmap;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Ошибка при установке стандартного логотипа: {ex.Message}");
+                }
+            });
+        }
+
+        private void HomePageButton_Click(object sender, RoutedEventArgs e)
+        {
+            SplitPage.Visibility = Visibility.Collapsed;
+            SettingsPageContainer.Visibility = Visibility.Collapsed;
+
+
+            WidePage.Visibility = Visibility.Visible;
+            WidePageTitle.Text = "Домашняя страница";
+            HomePageDescription.Visibility = Visibility.Visible;
+        }
+
+        private void AccountsViewAndEditPageButton_Click(object sender, RoutedEventArgs e)
+        {
+            IsInAddMode = false;
+
+            SplitPage.Visibility = Visibility.Visible;
+            SettingsPageContainer.Visibility = Visibility.Collapsed;
+
+
+            WidePage.Visibility = Visibility.Collapsed;
+            SplitPageTitle.Text = "Просмотр и редактирование";
+
+            SaveButton.Content = "Сохранить изменения";
+            DeleteAccountButton.Visibility = Visibility.Visible;
+            AccountsList.SelectedItem = null;
+
+            ServiceComboBox.SelectedItem = AllServices.FirstOrDefault(s => s.Name == "Другой сервис");
+            UnotherServiceTextBox.Text = null;
+            UrlTextBox.Text = null;
+            LoginTextBox.Text = null;
+            PasswordBox.Password = null;
+        }
+
+        private void AddAccountPageButton_Click(object sender, RoutedEventArgs e)
+        {
+            IsInAddMode = true;
+
+            SplitPage.Visibility = Visibility.Visible;
+            SettingsPageContainer.Visibility = Visibility.Collapsed;
+
+
+            WidePage.Visibility = Visibility.Collapsed;
+            SplitPageTitle.Text = "Добавление данных";
+
+            SaveButton.Content = "Добавить аккаунт";
+            DeleteAccountButton.Visibility = Visibility.Collapsed;
+            AccountsList.SelectedItem = null;
+            SaveButton.IsEnabled = true;
+
+            ServiceComboBox.SelectedItem = AllServices.FirstOrDefault(s => s.Name == "Другой сервис");
+            UnotherServiceTextBox.Text = null;
+            UrlTextBox.Text = null;
+            LoginTextBox.Text = null;
+            PasswordBox.Password = null;
+        }
+
+        private void SettinsPageButton_Click(object sender, RoutedEventArgs e)
+        {
+            SplitPage.Visibility = Visibility.Collapsed;
+            SettingsPageContainer.Visibility = Visibility.Visible;
+
+
+            WidePage.Visibility = Visibility.Visible;
+            WidePageTitle.Text = "Настройки";
+            HomePageDescription.Visibility = Visibility.Collapsed;
+        }
+
+        private void GeneratePassword_Click(object sender, RoutedEventArgs e)
+        {
+            string password = PasswordGenerator.GeneratePassword();
+
+            PasswordBox.Password = password;
+        }
+
+        public static class PasswordGenerator
+        {
+            private static readonly string Uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            private static readonly string Lowercase = "abcdefghijklmnopqrstuvwxyz";
+            private static readonly string Digits = "0123456789";
+            private static readonly string SpecialChars = "!@#$%^&*()-_=+[]{};:,.<>?";
+
+            private static readonly Random Random = new Random();
+
+            public static string GeneratePassword(int length = 12)
+            {
+                if (length < 4)
+                    throw new ArgumentException("Password length must be at least 4 characters.");
+
+                // Гарантированно добавляем по одному символу из каждой категории
+                var passwordChars = new StringBuilder();
+                passwordChars.Append(GetRandomChar(Uppercase));
+                passwordChars.Append(GetRandomChar(Lowercase));
+                passwordChars.Append(GetRandomChar(Digits));
+                passwordChars.Append(GetRandomChar(SpecialChars));
+
+                // Остальные символы выбираем из всех категорий
+                string allChars = Uppercase + Lowercase + Digits + SpecialChars;
+                for (int i = 4; i < length; i++)
+                {
+                    passwordChars.Append(GetRandomChar(allChars));
+                }
+
+                // Перемешиваем символы, чтобы порядок был случайным
+                return new string(passwordChars.ToString().OrderBy(_ => Random.Next()).ToArray());
+            }
+
+            private static char GetRandomChar(string chars)
+            {
+                return chars[Random.Next(chars.Length)];
             }
         }
     }

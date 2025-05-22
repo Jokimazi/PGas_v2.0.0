@@ -35,7 +35,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\PGas_program_logo.ico</ApplicationIcon>
+    <ApplicationIcon>resources\PGas_program_logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -118,39 +118,62 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <Resource Include="Resources\fonts\Segoe Fluent Icons.ttf" />
+    <Resource Include="resources\fonts\Segoe Fluent Icons.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\PGas_new_ai_logo_edited.png" />
+    <Resource Include="resources\PGas_new_ai_logo_edited.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\PGas_new_ai_logo_edited_2.png" />
+    <Resource Include="resources\PGas_new_ai_logo_edited_2.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\PGas_new_ai_logo_edited_2_smooth.png" />
+    <Resource Include="resources\PGas_new_ai_logo_edited_2_smooth.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\PGas_new_ai_logo_edited_2_smooth_2.png" />
+    <Resource Include="resources\PGas_new_ai_logo_edited_2_smooth_2.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\PGas_program_logo.ico" />
+    <Resource Include="resources\PGas_program_logo.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\services_logos\google_logo.png" />
+    <Resource Include="resources\services_logos\google_logo.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\services_logos\blank_logo.png" />
-    <Resource Include="Resources\services_logos\github_logo.png" />
-    <Resource Include="Resources\services_logos\ok_logo.png" />
-    <Resource Include="Resources\services_logos\vk_logo.png" />
+    <Resource Include="resources\services_logos\blank_logo.png" />
+    <Resource Include="resources\services_logos\github_logo.png" />
+    <Resource Include="resources\services_logos\ok_logo.png" />
+    <Resource Include="resources\services_logos\vk_logo.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\services_logos\pinterest_logo.png" />
-    <Resource Include="Resources\placeholder_pgas_logo.gif" />
+    <Resource Include="resources\services_logos\pinterest_logo.png" />
+    <Resource Include="resources\placeholder_pgas_logo.gif" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="resources\pgas_logo_animation_frames\PGas_new_ai_logo_edited_2_smooth_2_00000.png" />
+    <Resource Include="resources\pgas_logo_animation_frames\PGas_new_ai_logo_edited_2_smooth_2_00001.png" />
+    <Resource Include="resources\pgas_logo_animation_frames\PGas_new_ai_logo_edited_2_smooth_2_00002.png" />
+    <Resource Include="resources\pgas_logo_animation_frames\PGas_new_ai_logo_edited_2_smooth_2_00003.png" />
+    <Resource Include="resources\pgas_logo_animation_frames\PGas_new_ai_logo_edited_2_smooth_2_00004.png" />
+    <Resource Include="resources\pgas_logo_animation_frames\PGas_new_ai_logo_edited_2_smooth_2_00005.png" />
+    <Resource Include="resources\pgas_logo_animation_frames\PGas_new_ai_logo_edited_2_smooth_2_00006.png" />
+    <Resource Include="resources\pgas_logo_animation_frames\PGas_new_ai_logo_edited_2_smooth_2_00007.png" />
+    <Resource Include="resources\pgas_logo_animation_frames\PGas_new_ai_logo_edited_2_smooth_2_00008.png" />
+    <Resource Include="resources\pgas_logo_animation_frames\PGas_new_ai_logo_edited_2_smooth_2_00009.png" />
+    <Resource Include="resources\pgas_logo_animation_frames\PGas_new_ai_logo_edited_2_smooth_2_00010.png" />
+    <Resource Include="resources\pgas_logo_animation_frames\PGas_new_ai_logo_edited_2_smooth_2_00011.png" />
+    <Resource Include="resources\pgas_logo_animation_frames\PGas_new_ai_logo_edited_2_smooth_2_00012.png" />
+    <Resource Include="resources\pgas_logo_animation_frames\PGas_new_ai_logo_edited_2_smooth_2_00013.png" />
+    <Resource Include="resources\pgas_logo_animation_frames\PGas_new_ai_logo_edited_2_smooth_2_00014.png" />
+    <Resource Include="resources\pgas_logo_animation_frames\PGas_new_ai_logo_edited_2_smooth_2_00015.png" />
+    <Resource Include="resources\pgas_logo_animation_frames\PGas_new_ai_logo_edited_2_smooth_2_00016.png" />
+    <Resource Include="resources\pgas_logo_animation_frames\PGas_new_ai_logo_edited_2_smooth_2_00017.png" />
+    <Resource Include="resources\pgas_logo_animation_frames\PGas_new_ai_logo_edited_2_smooth_2_00018.png" />
+    <Resource Include="resources\pgas_logo_animation_frames\PGas_new_ai_logo_edited_2_smooth_2_00019.png" />
+    <Resource Include="resources\pgas_logo_animation_frames\PGas_new_ai_logo_edited_2_smooth_2_00020.png" />
+    <Resource Include="resources\pgas_logo_animation_frames\PGas_new_ai_logo_edited_2_smooth_2_00021.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

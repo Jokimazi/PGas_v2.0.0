@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,12 +24,11 @@ namespace PGas_v2._0._0
 {
     public partial class LoginWindow : FluentWindow
     {
-
-        private DispatcherTimer loadingTimer;
-
-        private int loadingStep = 0;
-
         private readonly ApiService APIService;
+
+        private Thread animationThread;
+
+        private bool isAnimating = false;
 
         private UseMode USE_MODE { get; set; } = UseMode.DevMode;
 
@@ -97,7 +97,7 @@ namespace PGas_v2._0._0
 
             EnabledSwitcher();
             HideErrorMessage();
-            StartLoadingAnimation();
+            StartLogoAnimation();
 
 
             string username = LoginBox.Text;
@@ -108,13 +108,13 @@ namespace PGas_v2._0._0
                 ShowErrorMessage("Введите имя пользователя и пароль");
                 EnabledSwitcher();
                 BoxesErrorHighlightting();
-                StopLoadingAnimation();
+                StopLogoAnimation();
                 return;
             }
 
             else if (String.IsNullOrEmpty(username))
             {
-                StopLoadingAnimation();
+                StopLogoAnimation();
                 ShowErrorMessage("Введите имя пользователя");
                 EnabledSwitcher();
                 LoginBoxErrorHighlighting();
@@ -123,7 +123,7 @@ namespace PGas_v2._0._0
 
             else if (String.IsNullOrEmpty(password))
             {
-                StopLoadingAnimation();
+                StopLogoAnimation();
                 ShowErrorMessage("Введите пароль");
                 EnabledSwitcher();
                     PasswordBoxErrorHighlighting();
@@ -134,7 +134,7 @@ namespace PGas_v2._0._0
 
             if (!string.IsNullOrEmpty(result.ErrorMessage))
             {
-                StopLoadingAnimation();
+                StopLogoAnimation();
                 ShowErrorMessage(result.ErrorMessage);
                 BoxesErrorHighlightting();
                 EnabledSwitcher();
@@ -171,45 +171,69 @@ namespace PGas_v2._0._0
 
 
 
-
-        private void StartLoadingAnimation()
+        private void StartLogoAnimation()
         {
-            LoadingTextBlock.Visibility = Visibility.Visible;
-            loadingStep = 0;
+            isAnimating = true;
 
-            loadingTimer = new DispatcherTimer();
-            loadingTimer.Interval = TimeSpan.FromMilliseconds(100);
-            loadingTimer.Tick += (s, e) =>
+            animationThread = new Thread(() =>
             {
-                loadingStep = (loadingStep + 1) % 4;
-                switch (loadingStep)
+                int frame = 0;
+                int totalFrames = 22;
+
+                while (isAnimating)
                 {
-                    case 0:
-                        LoadingTextBlock.Text = "Ɛ=D";
-                        break;
-                    case 1:
-                        LoadingTextBlock.Text = "Ɛ==D";
-                        break;
-                    case 2:
-                        LoadingTextBlock.Text = "Ɛ===D";
-                        break;
-                    case 3:
-                        LoadingTextBlock.Text = "Ɛ==D";
-                        break;
+                    string frameNumber = frame.ToString("D5");
+                    string path = $"pack://application:,,,/Resources/pgas_logo_animation_frames/PGas_new_ai_logo_edited_2_smooth_2_{frameNumber}.png";
+
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        try
+                        {
+                            BitmapImage bitmap = new BitmapImage();
+                            bitmap.BeginInit();
+                            bitmap.UriSource = new Uri(path, UriKind.Absolute);
+                            bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                            bitmap.EndInit();
+                            Logo.Source = bitmap;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Ошибка загрузки кадра {frameNumber}: {ex.Message}");
+                        }
+                    });
+
+                    frame = (frame + 1) % totalFrames;
+                    Thread.Sleep(30);
                 }
-            };
-            loadingTimer.Start();
+            });
+
+            animationThread.IsBackground = true;
+            animationThread.Start();
         }
 
-        private void StopLoadingAnimation()
+        private void StopLogoAnimation()
         {
-            if (loadingTimer != null)
+            isAnimating = false;
+            animationThread?.Join();
+
+            Application.Current.Dispatcher.Invoke(() =>
             {
-                loadingTimer.Stop();
-                LoadingTextBlock.Visibility = Visibility.Collapsed;
-                LoadingTextBlock.Text = string.Empty;
-            }
+                try
+                {
+                    BitmapImage bitmap = new BitmapImage();
+                    bitmap.BeginInit();
+                    bitmap.UriSource = new Uri("pack://application:,,,/Resources/PGas_new_ai_logo_edited_2_smooth_2.png", UriKind.Absolute);
+                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmap.EndInit();
+                    Logo.Source = bitmap;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Ошибка при установке стандартного логотипа: {ex.Message}");
+                }
+            });
         }
+
 
 
 

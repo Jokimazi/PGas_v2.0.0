@@ -9,8 +9,10 @@
     x:Class="PGas_v2._0._0.MainWindow"
     mc:Ignorable="d"
     Title="Passwords. Generating and storage"
-    Height="666"
-    Width="924"
+    Height="615"
+    MinHeight="484"
+    Width="886"
+    MinWidth="737"
     WindowStartupLocation="CenterScreen"
     Background="Transparent"
     Icon="/resources/PGas_program_logo.ico">
@@ -22,8 +24,6 @@
             <Grid.RowDefinitions>
                 <RowDefinition 
                     Height="30"/>
-                <RowDefinition 
-                    Height="100"/>
                 <RowDefinition 
                     Height="*"/>
             </Grid.RowDefinitions>
@@ -73,41 +73,98 @@
                 </Grid>
             </Border>
 
-            <Border 
-                Grid.Row="1"
-                Background="#FF2E2E2E"
-                Margin="20,0,20,0"
-                CornerRadius="10"
-                Padding="6,0,6,0">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition
-                            Width="*"/>
-                        <ColumnDefinition
-                            Width="Auto"/>
-                    </Grid.ColumnDefinitions>
+            <Grid Grid.Row="1" Margin="20,10,20,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-                    <StackPanel
-                        Orientation="Horizontal"
-                        Grid.Column="0">
+                <Border
+                    Grid.Column="0"
+                    Background="#FF2E2E2E"
+                    Margin="0,0,10,0"
+                    CornerRadius="8"
+                    Padding="0,0,0,0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
 
-                        <ui:Image 
+                        <ui:Image
+                            x:Name="Logo"
                             Source="/resources/PGas_new_ai_logo_edited_2_smooth_2.png" 
-                            Height="45"
-                            Margin="0,0,10,0"
-                            RenderOptions.BitmapScalingMode="HighQuality"/>
+                            Margin="6"
+                            Height="82"
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            Grid.Row="0"/>
 
                         <ui:Button
+                            x:Name="HomePageButton"
                             Appearance="Transparent"
-                            Click="AddAccount_Click"
                             VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
                             Padding ="0"
                             BorderBrush="Transparent"
-                            Foreground="#FF00D400"
                             CornerRadius="8"
-                            Width="38"
-                            Height="38"
-                            PressedForeground="#7900D400">
+                            Click="HomePageButton_Click"
+                            Width="70"
+                            Height="50"
+                            Margin="0,0,0,10"
+                            Grid.Row="1">
+
+                            <ui:SymbolIcon 
+                                Width="45"
+                                Symbol="Home24"
+                                FontFamily="Segoe Fluent Icons"
+                                FontSize="40"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"/>
+
+                        </ui:Button>
+
+                        <ui:Button
+                            x:Name="AccountsViewAndEditPageButton"
+                            Appearance="Transparent"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Padding ="0"
+                            BorderBrush="Transparent"
+                            CornerRadius="8"
+                            Click="AccountsViewAndEditPageButton_Click"
+                            Width="70"
+                            Height="50"
+                            Margin="0,0,0,10"
+                            Grid.Row="2">
+
+                            <ui:SymbolIcon 
+                                Width="45"
+                                Symbol="ContentView28"
+                                FontFamily="Segoe Fluent Icons"
+                                FontSize="40"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"/>
+
+                        </ui:Button>
+
+                        <ui:Button
+                            x:Name="AddAccountPageButton"
+                            Appearance="Transparent"
+                            Click="AddAccountPageButton_Click"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Padding ="0"
+                            BorderBrush="Transparent"
+                            CornerRadius="8"
+                            Width="70"
+                            Height="50"
+                            Margin="0,0,0,10"
+                            Grid.Row="3">
 
                             <ui:SymbolIcon 
                                 Width="45"
@@ -119,378 +176,524 @@
 
                         </ui:Button>
 
-
-
-
-                    </StackPanel>
-
-                    <ui:Button
-                        x:Name="GoToLogin"
-                        Appearance="Transparent"
-                        VerticalAlignment="Center"
-                        Padding ="0"
-                        BorderBrush="Transparent"
-                        CornerRadius="8"
-                        Width="38"
-                        Height="38"
-                        Grid.Column="1"
-                        Click="GoToLogin_Click" AutomationProperties.HelpText="Выход из системы">
-
-                        <ui:SymbolIcon
-                            Width="45"
-                            Symbol="ArrowExit20"
-                            FontSize="40"
-                            FontFamily="Segoe Fluent Icons"
+                        <ui:Button
+                            x:Name="SettinsPageButton"
+                            Appearance="Transparent"
                             VerticalAlignment="Center"
-                            HorizontalAlignment="Center"/>
+                            HorizontalAlignment="Center"
+                            Padding ="0"
+                            Click="SettinsPageButton_Click"
+                            BorderBrush="Transparent"
+                            CornerRadius="8"
+                            Width="70"
+                            Height="50"
+                            Margin="0,0,0,10"
+                            Grid.Row="5"
+                            AutomationProperties.HelpText="Выход из системы">
 
-                    </ui:Button>
+                            <ui:SymbolIcon
+                                Width="45"
+                                Symbol="Settings48"
+                                FontSize="40"
+                                FontFamily="Segoe Fluent Icons"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"/>
 
-                </Grid>
+                        </ui:Button>
 
+                        <ui:Button
+                            x:Name="GoToLogin"
+                            Appearance="Transparent"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Padding ="0"
+                            BorderBrush="Transparent"
+                            CornerRadius="8"
+                            Width="70"
+                            Height="50"
+                            Margin="0,0,0,10"
+                            Grid.Row="6"
+                            Click="GoToLogin_Click" 
+                            AutomationProperties.HelpText="Выход из системы">
 
+                            <ui:SymbolIcon
+                                Width="45"
+                                Symbol="ArrowExit20"
+                                FontSize="40"
+                                FontFamily="Segoe Fluent Icons"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"/>
 
-            </Border>
+                        </ui:Button>
+                    </Grid>
+                </Border>
 
-            <Grid Grid.Row="2" Margin="20,10,20,20">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="300"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
-                <Border 
+                <Border
+                    x:Name="WidePage"
                     Background="#FF2A2A2A" 
                     Margin="0,0,10,0" 
-                    CornerRadius="10">
+                    CornerRadius="8"
+                    Grid.Column="1"
+                    Padding="20"
+                    Visibility="Collapsed">
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition 
-                                Height="Auto"/>
-                            <RowDefinition 
-                                Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
-                        <ui:AutoSuggestBox
-                            Height="35"
-                            PlaceholderText="Поиск"
-                            SuggestionChosen="AutoSuggestBox_SuggestionChosen"
-                            TextChanged="AutoSuggestBox_TextChanged"
-                            Grid.Row="0"
-                            ItemsSource="{x:Null}"/>
+                        <ui:TextBlock
+                            x:Name="WidePageTitle"
+                            Text="Домашняя страница" 
+                            FontSize="16" 
+                            Foreground="White" 
+                            FontWeight="Bold"
+                            HorizontalAlignment="Center"
+                            Margin="0,0,0,10"
+                            Grid.Row="0"/>
+                        
+                        <Border
+                            Grid.Row="1"
+                            Visibility="Visible"
+                            x:Name="HomePageDescription">
+                            <ScrollViewer
+                                VerticalScrollBarVisibility="Auto"
+                                HorizontalScrollBarVisibility="Disabled">
+                                <StackPanel>
+                                    <ui:Image 
+                                        Source="/resources/PGas_new_ai_logo_edited_2_smooth_2.png" 
+                                        Height="130"
+                                        Margin="0,10,0,0"
+                                        RenderOptions.BitmapScalingMode="HighQuality"/>
+                                    <ui:TextBlock 
+                                        FontSize="24" 
+                                        Foreground="White" 
+                                        TextAlignment="Center" 
+                                        TextWrapping="Wrap" 
+                                        HorizontalAlignment="Center" 
+                                        Margin="0,0,0,0">
+                                        <Run Text="Passwords."/>
+                                        <LineBreak/>
+                                        <Run Text="Generation and storage"/>
+                                        <LineBreak/>
+                                        <Run Text="By Jokimazi" FontSize="20"/>
+                                        <LineBreak/>
+                                        <LineBreak/>
+                                        <Run Text="Сокращенно - P.Gas ('пигас', созвучно с мифическим существом - пегасом)" FontSize="20"/>
+                                        <LineBreak/>
+                                        <Run Text="Программа представлет из себя современный защищенный менеджер паролей с функцией генерации." FontSize="20"/>
+                                        <LineBreak/>
+                                    </ui:TextBlock>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </Border>
+
+                        <Border
+                            Grid.Row="1"
+                            x:Name="SettingsPageContainer"
+                            Visibility="Collapsed">
+                            <ScrollViewer
+                                VerticalScrollBarVisibility="Auto"
+                                HorizontalScrollBarVisibility="Disabled">
+                                <StackPanel>
+                                    <ui:ToggleSwitch Content="Запускать программу сразу в режиме просмотра и редактирования"/>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <Grid
+                    x:Name="SplitPage"
+                    Grid.Column="1"
+                    Visibility="Visible">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="300"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border 
+                        Background="#FF2A2A2A" 
+                        Margin="0,0,10,0" 
+                        CornerRadius="8"
+                        Grid.Column="0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <ui:AutoSuggestBox
+                                Height="35"
+                                PlaceholderText="Поиск"
+                                SuggestionChosen="AutoSuggestBox_SuggestionChosen"
+                                TextChanged="AutoSuggestBox_TextChanged"
+                                Grid.Row="0"
+                                ItemsSource="{x:Null}"/>
 
 
-                        <ListBox x:Name="AccountsList"
+                            <ListBox x:Name="AccountsList"
                                  BorderThickness="0"
                                  Background="Transparent"
                                  Foreground="White" 
                                  Grid.Row="1"
                                  SelectionChanged="AccountsList_SelectionChanged">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <Border 
-                                        Margin="10,10,10,0"
-                                        Background="#0CFFFFFF"
-                                        CornerRadius="5"
-                                        x:Name="ItemBorder">
-                                        <Grid Margin="5">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="39"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border 
+                                            Margin="10,10,10,0"
+                                            Background="#0CFFFFFF"
+                                            CornerRadius="5"
+                                            x:Name="ItemBorder">
+                                            <Grid Margin="5">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="39"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
 
-                                            <ui:Image 
-                                                Source="{Binding Icon}"
-                                                Margin="2"
-                                                RenderOptions.BitmapScalingMode="HighQuality"/>
+                                                <ui:Image 
+                                                    Source="{Binding Icon}"
+                                                    Margin="2"
+                                                    RenderOptions.BitmapScalingMode="HighQuality"/>
 
-                                            <StackPanel
-                                                Grid.Column="1"
-                                                Margin="5,0,0,0">
-                                                <TextBlock 
-                                                    Text="{Binding Service}" 
-                                                    FontWeight="Bold" 
-                                                    FontSize="14"/>
-                                                <TextBlock 
-                                                    Text="{Binding Login}" 
-                                                    FontSize="12" 
-                                                    Foreground="#AAAAAA"/>
-                                            </StackPanel>
+                                                <StackPanel
+                                                    Grid.Column="1"
+                                                    Margin="5,0,0,0">
+                                                    <TextBlock 
+                                                        Text="{Binding Service}" 
+                                                        FontWeight="Bold" 
+                                                        FontSize="14"/>
+                                                    <TextBlock 
+                                                        Text="{Binding Login}" 
+                                                        FontSize="12" 
+                                                        Foreground="#AAAAAA"/>
+                                                </StackPanel>
 
-                                        </Grid>
+                                            </Grid>
 
-                                    </Border>
+                                        </Border>
 
-                                    <DataTemplate.Triggers>
-                                        <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}" Value="True">
-                                            <Setter TargetName="ItemBorder" Property="Background" Value="#33FFFFFF"/>
-                                        </DataTrigger>
+                                        <DataTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}" Value="True">
+                                                <Setter TargetName="ItemBorder" Property="Background" Value="#33FFFFFF"/>
+                                            </DataTrigger>
 
-                                        <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}" Value="True">
-                                            <Setter TargetName="ItemBorder" Property="Background" Value="#22FFFFFF"/>
-                                        </DataTrigger>
-                                    </DataTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}" Value="True">
+                                                <Setter TargetName="ItemBorder" Property="Background" Value="#22FFFFFF"/>
+                                            </DataTrigger>
+                                        </DataTemplate.Triggers>
 
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
 
-                            <ListBox.ItemContainerStyle>
-                                <Style TargetType="{x:Type ListBoxItem}">
-                                    <Setter Property="Background" Value="Transparent"/>
-                                    <Setter Property="BorderThickness" Value="0"/>
-                                    <Setter Property="Padding" Value="0"/>
-                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                    <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-                                    <Setter Property="Focusable" Value="True"/>
-                                    <Setter Property="IsHitTestVisible" Value="True"/>
-                                    <Setter Property="OverridesDefaultStyle" Value="True"/>
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                                <Border Background="Transparent">
-                                                    <ContentPresenter />
-                                                </Border>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </ListBox.ItemContainerStyle>
-
-
-                        </ListBox>
-                    </Grid>
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="{x:Type ListBoxItem}">
+                                        <Setter Property="Background" Value="Transparent"/>
+                                        <Setter Property="BorderThickness" Value="0"/>
+                                        <Setter Property="Padding" Value="0"/>
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                                        <Setter Property="Focusable" Value="True"/>
+                                        <Setter Property="IsHitTestVisible" Value="True"/>
+                                        <Setter Property="OverridesDefaultStyle" Value="True"/>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                    <Border Background="Transparent">
+                                                        <ContentPresenter />
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
 
 
-                </Border>
-
-                <Border 
-                    Background="#FF2E2E2E" 
-                    CornerRadius="8" 
-                    Grid.Column="1" 
-                    Padding="20"
-                    Margin="0,0,0,0">
-                    <StackPanel>
-                        <TextBlock 
-                            Text="Редактирование и просмотр" 
-                            FontSize="16" 
-                            Foreground="White" 
-                            FontWeight="Bold" 
-                            Margin="0,0,0,10"/>
-
-                        <ComboBox 
-                            x:Name="ServiceComboBox"
-                            Margin="0,5,0,10"
-                            Width="240"
-                            MinWidth="240"
-                            StaysOpenOnEdit="True"
-                            HorizontalAlignment="Left"
-                            SelectionChanged="ServiceComboBox_SelectionChanged">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image 
-                                            Source="{Binding Icon}"
-                                            Width="20" Height="20"
-                                            Margin="0,0,8,0"
-                                            RenderOptions.BitmapScalingMode="HighQuality"/>
-                                        <TextBlock
-                                            Text="{Binding Name}" 
-                                            HorizontalAlignment="Left"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-
-                        <ui:TextBox 
-                            x:Name="UnotherServiceTextBox"
-                            Margin="0,5,0,10"
-                            HorizontalAlignment="Left"
-                            Width="240"
-                            MinWidth="240"
-                            TextChanged="UnotherServiceTextBox_TextChanged"
-                            PlaceholderText="Название сервиса"/>
-
-                        <ui:TextBox 
-                            x:Name="UrlTextBox"
-                            Margin="0,5,0,10"
-                            HorizontalAlignment="Left"
-                            Width="240"
-                            MinWidth="240"
-                            TextChanged="UrlTextBox_TextChanged"
-                            PlaceholderText="Ссылка на сервис"/>
-
-                        <ui:TextBox 
-                            x:Name="LoginTextBox" 
-                            Margin="0,5,0,10"
-                            Width="240"
-                            MinWidth="240"
-                            HorizontalAlignment="Left"
-                            TextChanged="LoginTextBox_TextChanged"
-                            PlaceholderText="Логин"/>
-
-                        <ui:PasswordBox 
-                            x:Name="PasswordBox" 
-                            Margin="0,5,0,0"
-                            HorizontalAlignment="Left"
-                            Width="240"
-                            MinWidth="240"
-                            PasswordChanged="PasswordBox_TextChanged"
-                            PlaceholderText="Пароль"/>
-
-                        <Grid 
-                            Width="240"
-                            MinWidth="240"
-                            HorizontalAlignment="Left"
-                            Margin="0,5,30,20"
-                            x:Name="PasswordDifficultyBar">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <Border
-                                x:Name="FirstSegmentPasswordDifficultyBar"
-                                HorizontalAlignment="Left"
-                                Width="77"
-                                Background="Gray"
-                                CornerRadius="2"
-                                BorderBrush="Transparent"
-                                Height="4"
-                                Grid.Column="0"/>
-                            <Border
-                                x:Name="SecondSegmentPasswordDifficultyBar"
-                                Width="77"
-                                Background="Gray"
-                                CornerRadius="2"
-                                BorderBrush="Transparent"
-                                Height="4"
-                                HorizontalAlignment="Center"
-                                Grid.Column="1"/>
-                            <Border
-                                x:Name="ThirdSegmentPasswordDifficultyBar"
-                                Width="77"
-                                Background="Gray"
-                                CornerRadius="2"
-                                BorderBrush="Transparent"
-                                Height="4"
-                                HorizontalAlignment="Right"
-                                Grid.Column="2"/>
-
+                            </ListBox>
                         </Grid>
 
-                        <Grid
-                            Width="240"
-                            HorizontalAlignment="Left">
 
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition
-                                    Width="Auto"/>
-                                <ColumnDefinition
-                                    Width="*"/>
-                            </Grid.ColumnDefinitions>
+                    </Border>
 
-                            <ui:Button 
-                                x:Name="SaveButton"
-                                Content="Сохранить изменения"
-                                Height="38"
-                                Width="170"
+                    <Border 
+                        Background="#FF2E2E2E" 
+                        CornerRadius="8" 
+                        Grid.Column="1" 
+                        Padding="20"
+                        Margin="0,0,0,0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <ui:TextBlock
+                                x:Name="SplitPageTitle"
+                                Text="Редактирование и просмотр" 
+                                FontSize="16" 
+                                Foreground="White" 
+                                FontWeight="Bold"
                                 HorizontalAlignment="Left"
-                                FontSize="24"
-                                IsEnabled="False"
-                                Grid.Column="0"
-                                Click="SaveChange_Click">
-                                <ui:Button.PressedBorderBrush>
-                                    <LinearGradientBrush 
-                                    EndPoint="0.5,1" 
-                                    StartPoint="0.5,0">
-                                        <GradientStop 
-                                        Color="#12FFFFFF" 
-                                        Offset="0.84"/>
-                                        <GradientStop 
-                                        Color="#FF0078D7" 
-                                        Offset="0.853"/>
-                                    </LinearGradientBrush>
-                                </ui:Button.PressedBorderBrush>
-                                <ui:Button.MouseOverBorderBrush>
-                                    <LinearGradientBrush 
-                                    EndPoint="0,3" 
-                                    MappingMode="Absolute">
-                                        <LinearGradientBrush.RelativeTransform>
-                                            <TransformGroup>
-                                                <ScaleTransform 
-                                                CenterX="0.5" 
-                                                CenterY="0.5"/>
-                                                <SkewTransform 
-                                                CenterX="0.5" 
-                                                CenterY="0.5"/>
-                                                <RotateTransform 
-                                                Angle="-180" 
-                                                CenterY="0.5" 
-                                                CenterX="0.5"/>
-                                                <TranslateTransform/>
-                                            </TransformGroup>
-                                        </LinearGradientBrush.RelativeTransform>
-                                        <GradientStop 
-                                            Color="#18FFFFFF" 
-                                            Offset="1"/>
-                                        <GradientStop 
-                                            Color="#FF0078D7" 
-                                            Offset="0.99"/>
-                                    </LinearGradientBrush>
-                                </ui:Button.MouseOverBorderBrush>
-                                <ui:Button.BorderBrush>
-                                    <LinearGradientBrush 
-                                        EndPoint="0,3" 
-                                        MappingMode="Absolute">
-                                        <LinearGradientBrush.RelativeTransform>
-                                            <TransformGroup>
-                                                <ScaleTransform 
-                                                CenterX="0.5" 
-                                                CenterY="0.5"/>
-                                                <SkewTransform 
-                                                CenterX="0.5" 
-                                                CenterY="0.5"/>
-                                                <RotateTransform 
-                                                Angle="-180" 
-                                                CenterY="0.5" 
-                                                CenterX="0.5"/>
-                                                <TranslateTransform/>
-                                            </TransformGroup>
-                                        </LinearGradientBrush.RelativeTransform>
-                                        <GradientStop 
-                                        Color="#18FFFFFF" 
-                                        Offset="1"/>
-                                        <GradientStop 
-                                        Color="#FF0078D7" 
-                                        Offset="0.99"/>
-                                    </LinearGradientBrush>
-                                </ui:Button.BorderBrush>
-                            </ui:Button>
+                                Margin="0,0,0,10"
+                                Grid.Row="0"/>
 
-                            <ui:Button
-                                 Grid.Column="1"
-                                 HorizontalAlignment="Right"
-                                 Appearance="Danger"
-                                 VerticalAlignment="Center"
-                                 Padding ="0"
-                                 Width="38"
-                                 Height="38"
-                                 Click="DeleteAccount_Click">
+                            <ScrollViewer 
+                                VerticalScrollBarVisibility="Auto"
+                                HorizontalScrollBarVisibility="Disabled"
+                                Grid.Row="1">
+                                <StackPanel>
+                                    <ComboBox 
+                                    x:Name="ServiceComboBox"
+                                    Margin="0,5,0,10"
+                                    Width="240"
+                                    MinWidth="240"
+                                    StaysOpenOnEdit="True"
+                                    HorizontalAlignment="Left"
+                                    SelectionChanged="ServiceComboBox_SelectionChanged">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Image 
+                                                        Source="{Binding Icon}"
+                                                        Width="20" Height="20"
+                                                        Margin="0,0,8,0"
+                                                        RenderOptions.BitmapScalingMode="HighQuality"/>
+                                                    <TextBlock
+                                                        Text="{Binding Name}" 
+                                                        HorizontalAlignment="Left"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
 
-                                <ui:SymbolIcon
-                                    Width="45"
-                                    Symbol="Delete24"
-                                    FontSize="23"
-                                    FontFamily="Segoe Fluent Icons"
-                                    VerticalAlignment="Center"
-                                    HorizontalAlignment="Center"/>
+                                    <ui:TextBox 
+                                        x:Name="UnotherServiceTextBox"
+                                        Margin="0,5,0,10"
+                                        HorizontalAlignment="Left"
+                                        Width="240"
+                                        MinWidth="240"
+                                        TextChanged="UnotherServiceTextBox_TextChanged"
+                                        PlaceholderText="Название сервиса"/>
 
-                            </ui:Button>
+                                    <ui:TextBox 
+                                        x:Name="UrlTextBox"
+                                        Margin="0,5,0,10"
+                                        HorizontalAlignment="Left"
+                                        Width="240"
+                                        MinWidth="240"
+                                        TextChanged="UrlTextBox_TextChanged"
+                                        PlaceholderText="Ссылка на сервис"/>
+
+                                    <ui:TextBox 
+                                        x:Name="LoginTextBox" 
+                                        Margin="0,5,0,10"
+                                        Width="240"
+                                        MinWidth="240"
+                                        HorizontalAlignment="Left"
+                                        TextChanged="LoginTextBox_TextChanged"
+                                        PlaceholderText="Логин"/>
+
+                                    <Grid
+                                        Width="268"
+                                        MinWidth="268"
+                                        Margin="0,5,0,0"
+                                        HorizontalAlignment="Left">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <ui:PasswordBox 
+                                            x:Name="PasswordBox" 
+                                            HorizontalAlignment="Left"
+                                            Width="240"
+                                            MinWidth="240"
+                                            PasswordChanged="PasswordBox_TextChanged"
+                                            PlaceholderText="Пароль"
+                                            Grid.Column="0"/>
+
+                                        <ui:Button
+                                            x:Name="GeneratePassword"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            Appearance="Transparent"
+                                            BorderBrush="Transparent"
+                                            VerticalAlignment="Center"
+                                            Padding ="0"
+                                            Margin="4,0,0,0"
+                                            Width="22"
+                                            Height="15"
+                                            Click="GeneratePassword_Click">
+
+                                            <ui:SymbolIcon
+                                                Width="45"
+                                                Symbol="Password24"
+                                                FontSize="23"
+                                                FontFamily="Segoe Fluent Icons"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center"/>
+
+                                        </ui:Button>
+                                    </Grid>
+                                    
+
+                                    <Grid 
+                                        Width="240"
+                                        MinWidth="240"
+                                        HorizontalAlignment="Left"
+                                        Margin="0,5,0,20"
+                                        x:Name="PasswordDifficultyBar">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border
+                                            x:Name="FirstSegmentPasswordDifficultyBar"
+                                            HorizontalAlignment="Left"
+                                            Width="77"
+                                            Background="Gray"
+                                            CornerRadius="2"
+                                            BorderBrush="Transparent"
+                                            Height="4"
+                                            Grid.Column="0"/>
+                                        <Border
+                                            x:Name="SecondSegmentPasswordDifficultyBar"
+                                            Width="77"
+                                            Background="Gray"
+                                            CornerRadius="2"
+                                            BorderBrush="Transparent"
+                                            Height="4"
+                                            HorizontalAlignment="Center"
+                                            Grid.Column="1"/>
+                                        <Border
+                                            x:Name="ThirdSegmentPasswordDifficultyBar"
+                                            Width="77"
+                                            Background="Gray"
+                                            CornerRadius="2"
+                                            BorderBrush="Transparent"
+                                            Height="4"
+                                            HorizontalAlignment="Right"
+                                            Grid.Column="2"/>
+
+                                    </Grid>
+
+                                    <Grid
+                                        Width="240"
+                                        HorizontalAlignment="Left">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <ui:Button 
+                                            x:Name="SaveButton"
+                                            Content="Сохранить изменения"
+                                            Height="38"
+                                            Width="170"
+                                            HorizontalAlignment="Left"
+                                            FontSize="24"
+                                            IsEnabled="False"
+                                            Grid.Column="0"
+                                            Click="SaveChange_Click">
+                                            <ui:Button.PressedBorderBrush>
+                                                <LinearGradientBrush 
+                                                    EndPoint="0.5,1" 
+                                                    StartPoint="0.5,0">
+                                                    <GradientStop 
+                                                        Color="#12FFFFFF" 
+                                                        Offset="0.84"/>
+                                                    <GradientStop 
+                                                        Color="#FF0078D7" 
+                                                        Offset="0.853"/>
+                                                </LinearGradientBrush>
+                                            </ui:Button.PressedBorderBrush>
+                                            <ui:Button.MouseOverBorderBrush>
+                                                <LinearGradientBrush 
+                                                    EndPoint="0,3" 
+                                                    MappingMode="Absolute">
+                                                    <LinearGradientBrush.RelativeTransform>
+                                                        <TransformGroup>
+                                                            <ScaleTransform 
+                                                                CenterX="0.5" 
+                                                                CenterY="0.5"/>
+                                                            <SkewTransform 
+                                                                CenterX="0.5" 
+                                                                CenterY="0.5"/>
+                                                            <RotateTransform 
+                                                                Angle="-180" 
+                                                                CenterY="0.5" 
+                                                                CenterX="0.5"/>
+                                                            <TranslateTransform/>
+                                                        </TransformGroup>
+                                                    </LinearGradientBrush.RelativeTransform>
+                                                    <GradientStop 
+                                                        Color="#18FFFFFF" 
+                                                        Offset="1"/>
+                                                    <GradientStop 
+                                                        Color="#FF0078D7" 
+                                                        Offset="0.99"/>
+                                                </LinearGradientBrush>
+                                            </ui:Button.MouseOverBorderBrush>
+                                            <ui:Button.BorderBrush>
+                                                <LinearGradientBrush 
+                                                    EndPoint="0,3" 
+                                                    MappingMode="Absolute">
+                                                    <LinearGradientBrush.RelativeTransform>
+                                                        <TransformGroup>
+                                                            <ScaleTransform 
+                                                                CenterX="0.5" 
+                                                                CenterY="0.5"/>
+                                                            <SkewTransform 
+                                                                CenterX="0.5" 
+                                                                CenterY="0.5"/>
+                                                            <RotateTransform 
+                                                                Angle="-180" 
+                                                                CenterY="0.5" 
+                                                                CenterX="0.5"/>
+                                                            <TranslateTransform/>
+                                                        </TransformGroup>
+                                                    </LinearGradientBrush.RelativeTransform>
+                                                    <GradientStop 
+                                                        Color="#18FFFFFF" 
+                                                        Offset="1"/>
+                                                    <GradientStop 
+                                                        Color="#FF0078D7" 
+                                                        Offset="0.99"/>
+                                                </LinearGradientBrush>
+                                            </ui:Button.BorderBrush>
+                                        </ui:Button>
+
+                                        <ui:Button
+                                            x:Name="DeleteAccountButton"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Right"
+                                            Appearance="Danger"
+                                            VerticalAlignment="Center"
+                                            Padding ="0"
+                                            Width="38"
+                                            Height="38"
+                                            Click="DeleteAccount_Click">
+
+                                            <ui:SymbolIcon
+                                                Width="45"
+                                                Symbol="Delete24"
+                                                FontSize="23"
+                                                FontFamily="Segoe Fluent Icons"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center"/>
+
+                                        </ui:Button>
 
 
+                                    </Grid>
+                                </StackPanel>
+                            </ScrollViewer>
                         </Grid>
-                    </StackPanel>
-                </Border>
+                    </Border>
+                </Grid>
             </Grid>
         </Grid>
     </Border>

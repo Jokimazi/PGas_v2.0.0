@@ -303,6 +303,66 @@ namespace PGas_v2._0._0
                 response.EnsureSuccessStatusCode();
                 return false;
             }
+
+
+        }
+
+        public async Task<bool> UpdateDataAsync(int id, string service, string url, string login, string password, string aao = null)
+        {
+            async Task<HttpResponseMessage> Wrapper()
+            {
+                string URL = REST_API_URL + $"update-data/{id}/";
+
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ACCESS_TOKEN);
+
+                var data = new
+                {
+                    name = service,
+                    url = url,
+                    login = login,
+                    crypt_password = password,
+                    advanced_auth_options = aao
+                };
+
+                string json = JsonConvert.SerializeObject(data);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                return await _httpClient.PutAsync(URL, content);
+            }
+
+            if (API_SERVICE_MODE != ApiServiceMode.DataInteraction)
+                throw new InvalidOperationException("The operation is available only in data interaction mode.");
+
+            HttpResponseMessage response = await Wrapper();
+
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            else if ((int)response.StatusCode == 401)
+            {
+                string errorJson = await response.Content.ReadAsStringAsync();
+
+                if (errorJson.Contains("token_not_valid") && errorJson.Contains("Token is expired"))
+                {
+                    bool refreshed = await RefreshTokenAsync();
+                    if (refreshed)
+                    {
+                        response = await Wrapper();
+                        if (response.IsSuccessStatusCode)
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                throw new UnauthorizedAccessException("Access token is invalid and could not be refreshed.");
+            }
+            else
+            {
+                response.EnsureSuccessStatusCode();
+                return false;
+            }
         }
     }
 }

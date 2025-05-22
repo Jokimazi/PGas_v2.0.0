@@ -56,7 +56,8 @@
                 </StackPanel>
             </Border>
 
-            <ui:Image 
+            <ui:Image
+                x:Name="Logo"
                 Source="/resources/PGas_new_ai_logo_edited_2_smooth_2.png" 
                 Height="130"
                 Margin="0,10,0,0"
@@ -131,82 +132,73 @@
                    Margin="0,20,0,0"
                    HorizontalAlignment="Center"
                    FontSize="24">
-                   <ui:Button.PressedBorderBrush>
-                        <LinearGradientBrush 
+                <ui:Button.PressedBorderBrush>
+                    <LinearGradientBrush 
                             EndPoint="0.5,1" 
                             StartPoint="0.5,0">
-                            <GradientStop 
+                        <GradientStop 
                                 Color="#12FFFFFF" 
                                 Offset="0.84"/>
-                            <GradientStop 
+                        <GradientStop 
                                 Color="#FF0064B3" 
                                 Offset="0.853"/>
-                        </LinearGradientBrush>
-                   </ui:Button.PressedBorderBrush>
-                   <ui:Button.MouseOverBorderBrush>
-                        <LinearGradientBrush 
+                    </LinearGradientBrush>
+                </ui:Button.PressedBorderBrush>
+                <ui:Button.MouseOverBorderBrush>
+                    <LinearGradientBrush 
                             EndPoint="0,3" 
                             MappingMode="Absolute">
-                            <LinearGradientBrush.RelativeTransform>
-                                <TransformGroup>
-                                    <ScaleTransform 
+                        <LinearGradientBrush.RelativeTransform>
+                            <TransformGroup>
+                                <ScaleTransform 
                                         CenterX="0.5" 
                                         CenterY="0.5"/>
-                                    <SkewTransform 
+                                <SkewTransform 
                                         CenterX="0.5" 
                                         CenterY="0.5"/>
-                                    <RotateTransform 
+                                <RotateTransform 
                                         Angle="-180" 
                                         CenterY="0.5" 
                                         CenterX="0.5"/>
-                                    <TranslateTransform/>
-                                </TransformGroup>
-                            </LinearGradientBrush.RelativeTransform>
-                                <GradientStop 
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </LinearGradientBrush.RelativeTransform>
+                        <GradientStop 
                                     Color="#18FFFFFF" 
                                     Offset="1"/>
-                                <GradientStop 
+                        <GradientStop 
                                     Color="#FF0072CA" 
                                     Offset="0.99"/>
-                        </LinearGradientBrush>
-                   </ui:Button.MouseOverBorderBrush>
-                   <ui:Button.BorderBrush>
-                        <LinearGradientBrush 
+                    </LinearGradientBrush>
+                </ui:Button.MouseOverBorderBrush>
+                <ui:Button.BorderBrush>
+                    <LinearGradientBrush 
                             EndPoint="0,3" 
                             MappingMode="Absolute">
-                            <LinearGradientBrush.RelativeTransform>
-                                <TransformGroup>
-                                    <ScaleTransform 
+                        <LinearGradientBrush.RelativeTransform>
+                            <TransformGroup>
+                                <ScaleTransform 
                                         CenterX="0.5" 
                                         CenterY="0.5"/>
-                                    <SkewTransform 
+                                <SkewTransform 
                                         CenterX="0.5" 
                                         CenterY="0.5"/>
-                                    <RotateTransform 
+                                <RotateTransform 
                                         Angle="-180" 
                                         CenterY="0.5" 
                                         CenterX="0.5"/>
-                                    <TranslateTransform/>
-                                </TransformGroup>
-                            </LinearGradientBrush.RelativeTransform>
-                            <GradientStop 
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </LinearGradientBrush.RelativeTransform>
+                        <GradientStop 
                                 Color="#18FFFFFF" 
                                 Offset="1"/>
-                            <GradientStop 
+                        <GradientStop 
                                 Color="#FF0078D7" 
                                 Offset="0.99"/>
-                        </LinearGradientBrush>
-                   </ui:Button.BorderBrush>
+                    </LinearGradientBrush>
+                </ui:Button.BorderBrush>
             </ui:Button>
-
-            <TextBlock 
-                x:Name="LoadingTextBlock" 
-                Margin="0,20,0,0" 
-                Visibility="Collapsed"
-                FontFamily="Consolas"
-                FontSize="18" 
-                HorizontalAlignment="Center" 
-                Foreground="White"/>
         </StackPanel>
     </Border>
 </ui:FluentWindow>
