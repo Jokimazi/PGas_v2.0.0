@@ -235,7 +235,7 @@
                     CornerRadius="8"
                     Grid.Column="1"
                     Padding="20"
-                    Visibility="Collapsed">
+                    Visibility="Visible">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -306,7 +306,7 @@
                 <Grid
                     x:Name="SplitPage"
                     Grid.Column="1"
-                    Visibility="Visible">
+                    Visibility="Collapsed">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="300"/>
                         <ColumnDefinition Width="*"/>
