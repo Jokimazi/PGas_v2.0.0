@@ -8,6 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Wpf.Ui.Controls;
 using System.Security.Policy;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Windows.Markup;
+using System.Net.NetworkInformation;
+using System.Net.Sockets;
+using System.Windows.Automation.Peers;
 
 namespace PGas_v2._0._0
 {
@@ -17,7 +23,7 @@ namespace PGas_v2._0._0
         private string ACCESS_TOKEN { get; set; }
         private string REFRESH_TOKEN { get; set; }
 
-        private ApiServiceMode API_SERVICE_MODE { get; set; }
+        public ApiServiceMode API_SERVICE_MODE { get; set; }
 
         private const string REST_API_URL = "https://pgas.jokimazi.site/rest-api/";
 
@@ -30,6 +36,9 @@ namespace PGas_v2._0._0
         public ApiService(ApiServiceMode mode)
         {
             _httpClient = new HttpClient();
+
+            ACCESS_TOKEN = App.ACCESS_TOKEN;
+            REFRESH_TOKEN = App.REFRESH_TOKEN;
 
             API_SERVICE_MODE = mode;
         }
@@ -83,9 +92,8 @@ namespace PGas_v2._0._0
             {
                 AuthResponseModel result = JsonConvert.DeserializeObject<AuthResponseModel>(responseContent);
 
-                ACCESS_TOKEN = result.AccessToken;
-                REFRESH_TOKEN = result.RefreshToken;
-                Console.WriteLine(ACCESS_TOKEN);
+                App.ACCESS_TOKEN = result.AccessToken;
+                App.REFRESH_TOKEN = result.RefreshToken;
 
                 return result;
             }
@@ -125,7 +133,6 @@ namespace PGas_v2._0._0
             }
             else
             {
-                // Токен истёк или refresh недействителен
                 return false;
             }
         }
@@ -133,24 +140,18 @@ namespace PGas_v2._0._0
 
         public async Task<List<UserAccount>> GetDataAsync()
         {
-            if (API_SERVICE_MODE != ApiServiceMode.DataInteraction)
-                throw new InvalidOperationException("The operation is available only in data interaction mode.");
-
-            async Task<HttpResponseMessage> SendRequest()
+            async Task<HttpResponseMessage> Wrapper()
             {
-                Console.WriteLine(ACCESS_TOKEN);
                 string URL = REST_API_URL + "get-data/";
-                _httpClient.DefaultRequestHeaders.Authorization =
-                    new AuthenticationHeaderValue("Bearer", ACCESS_TOKEN);
-                Console.WriteLine(ACCESS_TOKEN);
+
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ACCESS_TOKEN);
+
                 return await _httpClient.GetAsync(URL);
             }
 
-            HttpResponseMessage response = await SendRequest();
-
-            if (response.IsSuccessStatusCode)
+            async Task<List<UserAccount>> AddIcon(HttpResponseMessage resp)
             {
-                string json = await response.Content.ReadAsStringAsync();
+                string json = await resp.Content.ReadAsStringAsync();
                 var accounts = JsonConvert.DeserializeObject<List<UserAccount>>(json);
 
                 var services = new ServiceItems().AllServices;
@@ -163,32 +164,29 @@ namespace PGas_v2._0._0
 
                 return accounts;
             }
+
+            if (API_SERVICE_MODE != ApiServiceMode.DataInteraction)
+                throw new InvalidOperationException("The operation is available only in data interaction mode.");
+
+            HttpResponseMessage response = await Wrapper();
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await AddIcon(response);
+            }
             else if ((int)response.StatusCode == 401)
             {
                 string errorJson = await response.Content.ReadAsStringAsync();
 
-                // Проверяем, что причина — истекший access токен
                 if (errorJson.Contains("token_not_valid") && errorJson.Contains("Token is expired"))
                 {
                     bool refreshed = await RefreshTokenAsync();
                     if (refreshed)
                     {
-                        // Повторяем запрос с новым access токеном
-                        response = await SendRequest();
+                        response = await Wrapper();
                         if (response.IsSuccessStatusCode)
                         {
-                            string json = await response.Content.ReadAsStringAsync();
-                            var accounts = JsonConvert.DeserializeObject<List<UserAccount>>(json);
-
-                            var services = new ServiceItems().AllServices;
-
-                            foreach (var acc in accounts)
-                            {
-                                var service = services.FirstOrDefault(s => s.Name == acc.Service);
-                                acc.Icon = service?.Icon ?? "/resources/services_logos/blank_logo.png";
-                            }
-
-                            return accounts;
+                            return await AddIcon(response);
                         }
                     }
                 }
@@ -197,11 +195,114 @@ namespace PGas_v2._0._0
             }
             else
             {
-                response.EnsureSuccessStatusCode(); // Бросаем исключение для всех других ошибок
-                return null; // никогда не достигнется
+                response.EnsureSuccessStatusCode();
+                return null;
             }
         }
 
+        public async Task<bool> AddDataAsync(string service, string url, string login, string password, string aao = null)
+        {
+            if (API_SERVICE_MODE != ApiServiceMode.DataInteraction)
+                throw new InvalidOperationException("The operation is available only in data interaction mode.");
 
+            async Task<HttpResponseMessage> Wrapper()
+            {
+                string URL = REST_API_URL + "add-data/";
+
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ACCESS_TOKEN);
+
+                var data = new
+                {
+                    name = service,
+                    url = url,
+                    login = login,
+                    crypt_password = password,
+                    advanced_auth_options = aao
+                };
+
+                string json = JsonConvert.SerializeObject(data);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                return await _httpClient.PostAsync(URL, content);
+            }
+
+
+            HttpResponseMessage response = await Wrapper();
+
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            else if ((int)response.StatusCode == 401)
+            {
+                string errorJson = await response.Content.ReadAsStringAsync();
+
+                if (errorJson.Contains("token_not_valid") && errorJson.Contains("Token is expired"))
+                {
+                    bool refreshed = await RefreshTokenAsync();
+                    if (refreshed)
+                    {
+                        response = await Wrapper();
+                        if (response.IsSuccessStatusCode)
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                throw new UnauthorizedAccessException("Access token is invalid and could not be refreshed.");
+            }
+            else
+            {
+                response.EnsureSuccessStatusCode();
+                return false;
+            }
+        }
+
+        public async Task<bool> DeleteDataAsync(int id)
+        {
+            async Task<HttpResponseMessage> Wrapper()
+            {
+                string URL = REST_API_URL + $"delete-data/{id}/";
+
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ACCESS_TOKEN);
+
+                return await _httpClient.DeleteAsync(URL);
+            };
+
+            if (API_SERVICE_MODE != ApiServiceMode.DataInteraction)
+                throw new InvalidOperationException("The operation is available only in data interaction mode.");
+
+            HttpResponseMessage response = await Wrapper();
+
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            else if ((int)response.StatusCode == 401)
+            {
+                string errorJson = await response.Content.ReadAsStringAsync();
+
+                if (errorJson.Contains("token_not_valid") && errorJson.Contains("Token is expired"))
+                {
+                    bool refreshed = await RefreshTokenAsync();
+                    if (refreshed)
+                    {
+                        response = await Wrapper();
+                        if (response.IsSuccessStatusCode)
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                throw new UnauthorizedAccessException("Access token is invalid and could not be refreshed.");
+            }
+            else
+            {
+                response.EnsureSuccessStatusCode();
+                return false;
+            }
+        }
     }
 }

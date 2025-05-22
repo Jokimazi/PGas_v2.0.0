@@ -141,6 +141,9 @@ namespace PGas_v2._0._0
             }
             else
             {
+                App.ACCESS_TOKEN = result.AccessToken;
+                App.REFRESH_TOKEN = result.RefreshToken;
+
                 GoToMain(UseMode.UserMode);
             }
         }

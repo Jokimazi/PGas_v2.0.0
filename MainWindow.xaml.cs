@@ -33,6 +33,8 @@ namespace PGas_v2._0._0
 
         public List<ServiceItems.ServiceItem> AllServices { get; set; }
 
+        public UseMode USE_MODE { get; set; }
+
         private readonly ApiService APIService;
 
         public enum UseMode
@@ -41,15 +43,24 @@ namespace PGas_v2._0._0
             UserMode
         }
 
+        public enum PasswordStrength
+        {
+            Weak,
+            Medium,
+            Strong
+        }
+
         public MainWindow(UseMode usemode)
         {
             InitializeComponent();
+
+            USE_MODE = usemode;
                 
             AllServices = new ServiceItems().AllServices;
             ServiceComboBox.ItemsSource = AllServices;
             ServiceComboBox.SelectedItem = AllServices.FirstOrDefault(s => s.Name == "Другой сервис");
 
-            if (usemode == UseMode.DevMode)
+            if (USE_MODE == UseMode.DevMode)
             {
                 var UA = new UserAccount();
 
@@ -82,6 +93,40 @@ namespace PGas_v2._0._0
 
             AllAccounts = AllAccounts.OrderBy(s => s.Service).ThenBy(s => s.Service.ToLower()).ToList();
             AccountsList.ItemsSource = AllAccounts;
+        }
+
+        public static PasswordStrength CheckPasswordStrength(string password)
+        {
+            if (string.IsNullOrWhiteSpace(password))
+                return PasswordStrength.Weak;
+
+            int score = 0;
+
+            if (password.Length >= 8)
+                score++;
+            if (password.Length >= 10)
+                score++;
+
+            bool hasLetter = password.Any(char.IsLetter);
+            bool hasDigit = password.Any(char.IsDigit);
+            if (hasLetter && hasDigit)
+                score++;
+
+            bool hasUpper = password.Any(char.IsUpper);
+            bool hasLower = password.Any(char.IsLower);
+            if (hasUpper && hasLower)
+                score++;
+
+            bool hasSpecial = password.Any(ch => !char.IsLetterOrDigit(ch));
+            if (hasSpecial)
+                score++;
+
+            if (score <= 2)
+                return PasswordStrength.Weak;
+            else if (score == 3 || score == 4)
+                return PasswordStrength.Medium;
+            else
+                return PasswordStrength.Strong;
         }
 
 
@@ -141,6 +186,34 @@ namespace PGas_v2._0._0
 
 
 
+        private async void DeleteAccount_Click(object sender, RoutedEventArgs e)
+        {
+            if (USE_MODE == UseMode.UserMode)
+            {
+                UserAccount selected = AccountsList.SelectedItem as UserAccount;
+
+                int id = selected.Id;
+
+                if(await APIService.DeleteDataAsync(id))
+                {
+                    UpdateAllAccountsList();
+                }
+            }
+        }
+        
+        private async void AddAccount_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private async void SaveChange_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+
+
+
         private void ServiceComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (ServiceComboBox.SelectedItem is ServiceItems.ServiceItem selected)
@@ -189,13 +262,36 @@ namespace PGas_v2._0._0
         {
             var SelectedItem = AccountsList.SelectedItem as UserAccount;
 
-            if (SelectedItem == null || PasswordBox.Password == SelectedItem.Password)
+            string password = PasswordBox.Password;
+
+            if (SelectedItem == null || password == SelectedItem.Password)
             {
                 SaveButton.IsEnabled = false;
             }
             else
             {
                 SaveButton.IsEnabled = true;
+            }
+
+            PasswordStrength strength = CheckPasswordStrength(password);
+
+            switch (strength)
+            {
+                case PasswordStrength.Weak:
+                    FirstSegmentPasswordDifficultyBar.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xF1, 0x00, 0x00));
+                    SecondSegmentPasswordDifficultyBar.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x80, 0x80, 0x80));
+                    ThirdSegmentPasswordDifficultyBar.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x80, 0x80, 0x80));
+                    break;
+                case PasswordStrength.Medium:
+                    FirstSegmentPasswordDifficultyBar.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xFD, 0xFF, 0x00));
+                    SecondSegmentPasswordDifficultyBar.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xFD, 0xFF, 0x00));
+                    ThirdSegmentPasswordDifficultyBar.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x80, 0x80, 0x80));
+                    break;
+                case PasswordStrength.Strong:
+                    FirstSegmentPasswordDifficultyBar.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x18, 0xC5, 0x00));
+                    SecondSegmentPasswordDifficultyBar.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x18, 0xC5, 0x00));
+                    ThirdSegmentPasswordDifficultyBar.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x18, 0xC5, 0x00));
+                    break;
             }
         }
 

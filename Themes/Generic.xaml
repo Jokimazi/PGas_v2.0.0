@@ -1,0 +1,54 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:Controls="clr-namespace:PGas_v2._0._0.Controls" 
+                    xmlns:ui="clr-namespace:Wpf.Ui.Controls;assembly=Wpf.Ui">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Wpf.Ui;component/Themes/Dark.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- Шаблон кастомного GeneratorTextBox -->
+    <Style TargetType="{x:Type Controls:GeneratorTextBox}"
+           BasedOn="{StaticResource {x:Type ui:TextBox}}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Controls:GeneratorTextBox}">
+                    <!-- Тот самый шаблон с двумя кнопками -->
+                    <Grid>
+                        <Border x:Name="Border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="4"
+                                SnapsToDevicePixels="True">
+                            <Grid>
+                                <ScrollViewer x:Name="PART_ContentHost"
+                                              Margin="5,0,50,0"
+                                              VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+
+                        <Button x:Name="PART_ClearButton"
+                                Visibility="Collapsed"
+                                Content="✕"
+                                Style="{StaticResource AccentButtonStyle}"
+                                Width="20"
+                                Height="20"
+                                HorizontalAlignment="Right"
+                                Margin="0,0,28,0"
+                                VerticalAlignment="Center" />
+
+                        <Button x:Name="PART_GenerateButton"
+                                Content="⚙"
+                                Style="{StaticResource AccentButtonStyle}"
+                                Width="20"
+                                Height="20"
+                                HorizontalAlignment="Right"
+                                Margin="0,0,5,0"
+                                VerticalAlignment="Center" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
