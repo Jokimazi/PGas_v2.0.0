@@ -491,7 +491,7 @@ namespace PGas_v2._0._0
                 {
                     BitmapImage bitmap = new BitmapImage();
                     bitmap.BeginInit();
-                    bitmap.UriSource = new Uri("pack://application:,,,/Resources/PGas_new_ai_logo_edited_2_smooth_2.png", UriKind.Absolute);
+                    bitmap.UriSource = new Uri("pack://application:,,,/resources/pgas_logo/PGas_new_ai_logo_edited_2_smooth_2.png", UriKind.Absolute);
                     bitmap.CacheOption = BitmapCacheOption.OnLoad;
                     bitmap.EndInit();
                     Logo.Source = bitmap;

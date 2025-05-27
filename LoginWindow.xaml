@@ -12,7 +12,7 @@
         Background="Transparent"
         MinWidth="372"
         WindowStartupLocation="CenterScreen"
-        Icon="/resources/PGas_program_logo.ico" Cursor="">
+        Icon="/resources/pgas_logo/PGas_program_logo.ico" Cursor="">
 
     <Border
         CornerRadius="10"
@@ -58,7 +58,7 @@
 
             <ui:Image
                 x:Name="Logo"
-                Source="/resources/PGas_new_ai_logo_edited_2_smooth_2.png" 
+                Source="/resources/pgas_logo/PGas_new_ai_logo_edited_2_smooth_2.png" 
                 Height="130"
                 Margin="0,10,0,0"
                 RenderOptions.BitmapScalingMode="HighQuality"/>

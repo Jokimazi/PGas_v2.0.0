@@ -15,7 +15,7 @@
     MinWidth="737"
     WindowStartupLocation="CenterScreen"
     Background="Transparent"
-    Icon="/resources/PGas_program_logo.ico">
+    Icon="/resources/pgas_logo/PGas_program_logo.ico">
 
     <Border 
         CornerRadius="10"
@@ -98,7 +98,7 @@
 
                         <ui:Image
                             x:Name="Logo"
-                            Source="/resources/PGas_new_ai_logo_edited_2_smooth_2.png" 
+                            Source="/resources/pgas_logo/PGas_new_ai_logo_edited_2_smooth_2.png" 
                             Margin="6"
                             Height="82"
                             RenderOptions.BitmapScalingMode="HighQuality"
@@ -235,7 +235,7 @@
                     CornerRadius="8"
                     Grid.Column="1"
                     Padding="20"
-                    Visibility="Collapsed">
+                    Visibility="Visible">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -261,7 +261,7 @@
                                 HorizontalScrollBarVisibility="Disabled">
                                 <StackPanel>
                                     <ui:Image 
-                                        Source="/resources/PGas_new_ai_logo_edited_2_smooth_2.png" 
+                                        Source="/resources/pgas_logo/PGas_new_ai_logo_edited_2_smooth_2.png" 
                                         Height="130"
                                         Margin="0,10,0,0"
                                         RenderOptions.BitmapScalingMode="HighQuality"/>
@@ -306,7 +306,7 @@
                 <Grid
                     x:Name="SplitPage"
                     Grid.Column="1"
-                    Visibility="Visible">
+                    Visibility="Collapsed">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="300"/>
                         <ColumnDefinition Width="*"/>

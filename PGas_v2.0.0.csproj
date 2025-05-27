@@ -35,7 +35,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>resources\PGas_program_logo.ico</ApplicationIcon>
+    <ApplicationIcon>resources\pgas_logo\PGas_program_logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -124,19 +124,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="resources\PGas_new_ai_logo_edited.png" />
+    <Resource Include="resources\pgas_logo\PGas_new_ai_logo_edited_2_smooth_2.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="resources\PGas_new_ai_logo_edited_2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="resources\PGas_new_ai_logo_edited_2_smooth.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="resources\PGas_new_ai_logo_edited_2_smooth_2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="resources\PGas_program_logo.ico" />
+    <Resource Include="resources\pgas_logo\PGas_program_logo.ico" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="resources\services_logos\google_logo.png" />
@@ -149,7 +140,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="resources\services_logos\pinterest_logo.png" />
-    <Resource Include="resources\placeholder_pgas_logo.gif" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="resources\pgas_logo_animation_frames\PGas_new_ai_logo_edited_2_smooth_2_00000.png" />
@@ -175,5 +165,6 @@
     <Resource Include="resources\pgas_logo_animation_frames\PGas_new_ai_logo_edited_2_smooth_2_00020.png" />
     <Resource Include="resources\pgas_logo_animation_frames\PGas_new_ai_logo_edited_2_smooth_2_00021.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -19,13 +19,16 @@ namespace PGas_v2._0._0
 {
     public class ApiService
     {
+        private const string REST_API_URL = "https://pgas.jokimazi.site/rest-api/";
+
         private readonly HttpClient _httpClient;
         private string ACCESS_TOKEN { get; set; }
         private string REFRESH_TOKEN { get; set; }
+        private string USERNAME { get; set; }
+        private string PASSWORD { get; set; }
 
         public ApiServiceMode API_SERVICE_MODE { get; set; }
 
-        private const string REST_API_URL = "https://pgas.jokimazi.site/rest-api/";
 
         public enum ApiServiceMode
         {
@@ -94,6 +97,8 @@ namespace PGas_v2._0._0
 
                 App.ACCESS_TOKEN = result.AccessToken;
                 App.REFRESH_TOKEN = result.RefreshToken;
+                this.USERNAME = username;
+                this.PASSWORD = password;
 
                 return result;
             }
